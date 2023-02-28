@@ -1,0 +1,1 @@
+{"DatabaseType":"MSSQLServer","ConnectionString":"server=(local); initial catalog = gettingstarted; integrated security = true"}
