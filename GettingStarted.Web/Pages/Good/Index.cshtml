@@ -1,0 +1,49 @@
+﻿@page
+@model GettingStarted.Web.Pages.Good.IndexModel
+<table class="table  table-sm table-bordered ">
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>First Name</th>
+            <th>Last Name </th>
+            <th>Email</th>
+            <th class="text-center">
+                <a asp-page="/Good/AddCustomer" title="Add a new custmer" class="text-center">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Customers is null || Model.Customers.Count == 0)
+        {
+            <tr>
+                <td colspan="5" class="text-center">
+                    <p class="px-3 py-3">
+                        You currently have no customers.
+                        Click on the <i class="fa fa-plus text-primary"></i> icon to add customers.
+                    </p>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var customer in Model.Customers)
+            {
+                <tr>
+                    <td>@customer.CustomerId</td>
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <td>@customer.Email</td>
+                    <td class="text-center">
+                        <form method="post" asp-page-handler="DeleteCustomer" asp-route-customerId="@customer.CustomerId">
+                            <button type="submit" class="btn btn-link"  onclick="return confirm('Permanently delete @customer.FirstName @customer.LastName?')">
+                                <i class="fa fa-trash text-danger"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

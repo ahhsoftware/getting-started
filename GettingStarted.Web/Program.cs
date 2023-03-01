@@ -1,7 +1,23 @@
+using System.Diagnostics.Metrics;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+string connection = builder.Configuration["ConnectionString"];
+builder.Services.AddSingleton<GettingStarted.DataServices.Good.Service>((o) =>
+{
+    return new GettingStarted.DataServices.Good.Service(connection);
+});
+//builder.Services.AddSingleton<GettingStarted.DataServices.Better.Service>((o) =>
+//{
+//    return new GettingStarted.DataServices.Better.Service(connection);
+//});
+builder.Services.AddSingleton<GettingStarted.DataServices.Best.Service>((o) =>
+{
+    return new GettingStarted.DataServices.Best.Service(connection);
+});
 
 var app = builder.Build();
 

@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStarted.DataServices", "GettingStarted.DataServices\GettingStarted.DataServices.csproj", "{EF442F09-E8C1-4644-8D3C-790D66D5EFB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingStarted.DataServices", "GettingStarted.DataServices\GettingStarted.DataServices.csproj", "{EF442F09-E8C1-4644-8D3C-790D66D5EFB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStarted.Tests", "GettingStarted.Tests\GettingStarted.Tests.csproj", "{4268F1C2-86EB-49CC-A9B7-226B7036BC4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingStarted.Tests", "GettingStarted.Tests\GettingStarted.Tests.csproj", "{4268F1C2-86EB-49CC-A9B7-226B7036BC4F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{4F55ABFE-6E1E-4EE2-A7D1-65BB8D5DA817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStarted.Functions", "GettingStarted.Functions\GettingStarted.Functions.csproj", "{47471462-B765-489D-B1A4-3632D6F9B953}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingStarted.Functions", "GettingStarted.Functions\GettingStarted.Functions.csproj", "{47471462-B765-489D-B1A4-3632D6F9B953}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStarted.Web", "GettingStarted.Web\GettingStarted.Web.csproj", "{C30FC89F-9851-4011-A7D1-3941B0F31C70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingStarted.Web", "GettingStarted.Web\GettingStarted.Web.csproj", "{C30FC89F-9851-4011-A7D1-3941B0F31C70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStarted.Blazor", "GettingStarted.Blazor\GettingStarted.Blazor.csproj", "{64A77DA2-871D-465E-BF7F-7E98C3EFEB5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GettingStarted.Blazor", "GettingStarted.Blazor\GettingStarted.Blazor.csproj", "{64A77DA2-871D-465E-BF7F-7E98C3EFEB5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
