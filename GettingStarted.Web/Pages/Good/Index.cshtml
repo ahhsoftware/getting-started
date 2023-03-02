@@ -1,5 +1,6 @@
 ﻿@page
 @model GettingStarted.Web.Pages.Good.IndexModel
+<h4 class="py-1">Customers (Good Example)</h4>
 <table class="table  table-sm table-bordered ">
     <thead>
         <tr>
@@ -7,7 +8,7 @@
             <th>First Name</th>
             <th>Last Name </th>
             <th>Email</th>
-            <th class="text-center">
+            <th colspan="2" class="text-center">
                 <a asp-page="/Good/AddCustomer" title="Add a new custmer" class="text-center">
                     <i class="fa fa-plus"></i>
                 </a>
@@ -35,12 +36,15 @@
                     <td>@customer.FirstName</td>
                     <td>@customer.LastName</td>
                     <td>@customer.Email</td>
-                    <td class="text-center">
-                        <form method="post" asp-page-handler="DeleteCustomer" asp-route-customerId="@customer.CustomerId">
-                            <button type="submit" class="btn btn-link"  onclick="return confirm('Permanently delete @customer.FirstName @customer.LastName?')">
-                                <i class="fa fa-trash text-danger"></i>
-                            </button>
-                        </form>
+                    <td align="center" width="48px">
+                        <a asp-page="/Good/EditCustomer" asp-route-customerId="@customer.CustomerId">
+                            <i class="fa fa-pencil text-info"></i>
+                        </a>
+                    </td>
+                    <td align="center" width="48px">
+                        <a asp-page-handler="DeleteCustomer" asp-route-customerId="@customer.CustomerId" onclick="return confirm('Permanently delete @customer.FirstName @customer.LastName?')">
+                            <i class="fa fa-trash text-danger"></i>
+                        </a>
                     </td>
                 </tr>
             }

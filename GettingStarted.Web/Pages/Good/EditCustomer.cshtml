@@ -1,10 +1,11 @@
 ﻿@page
-@model GettingStarted.Web.Pages.Good.AddCustomerModel
+@model GettingStarted.Web.Pages.Good.EditCustomerModel
 <div class="container w-50">
     <div class="mx-auto shadow p-5 rounded">
-        <h2 class="text-center mb-5">New Customer</h2>
+        <h2 class="text-center mb-5">Edit Customer</h2>
         <div class="mb-4">
             <form method="post">
+                <input type="hidden" asp-for="Input!.CustomerId" />
                 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">

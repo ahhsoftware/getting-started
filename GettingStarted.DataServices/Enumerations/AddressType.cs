@@ -10,17 +10,7 @@ namespace GettingStarted.DataServices.Enumerations
     /// <summary>
     /// Enumeration for query AddressType
     /// </summary>
-    public enum AddressType : System.Byte
+    public enum AddressType : int
     {
-        /// <summary>
-        /// Residential Address
-        /// </summary>
-        Residential = 1,
-
-        /// <summary>
-        /// Business Address
-        /// </summary>
-        Business = 2
-
     }
 }
