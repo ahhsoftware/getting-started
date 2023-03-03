@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace GettingStarted.Functions
 {
-    public static class Good
+    public static class Better
     {
         private const string SERVICE_PROJECT = "GettingStarted.DataServices";
-        private const string SERVICE_NAMESPACE = "GettingStarted.DataServices.Good";
-        private static readonly Type serviceType = typeof(GettingStarted.DataServices.Good.Service);
+        private const string SERVICE_NAMESPACE = "GettingStarted.DataServices.Better";
+        private static readonly Type serviceType = typeof(GettingStarted.DataServices.Better.Service);
 
-        [FunctionName("Good")]
+        [FunctionName("Better")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/good/{serviceName}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/Better/{serviceName}")] HttpRequest req,
             string serviceName,
             ILogger log)
         {
@@ -38,7 +38,7 @@ namespace GettingStarted.Functions
                 if (parameters.Length != 0)
                 {
                     string json = await req.ReadAsStringAsync();
-                    return Execute(method, serviceName, ServiceFactory.GoodDataService, json, log);
+                    return Execute(method, serviceName, ServiceFactory.BetterDataService, json, log);
                 }
 
                 return Execute(method, serviceName);
@@ -53,10 +53,10 @@ namespace GettingStarted.Functions
 
         private static IActionResult Execute(MethodInfo method, string serviceName)
         {
-            return new OkObjectResult(method.Invoke(ServiceFactory.GoodDataService, null));
+            return new OkObjectResult(method.Invoke(ServiceFactory.BetterDataService, null));
         }
 
-        private static IActionResult Execute(MethodInfo method, string serviceName, GettingStarted.DataServices.Good.Service service, string json, ILogger log)
+        private static IActionResult Execute(MethodInfo method, string serviceName, GettingStarted.DataServices.Better.Service service, string json, ILogger log)
         {
             Type inputType = Type.GetType($"{SERVICE_NAMESPACE}.Models.{serviceName}Input, {SERVICE_PROJECT}")!;
             if(inputType is null)
