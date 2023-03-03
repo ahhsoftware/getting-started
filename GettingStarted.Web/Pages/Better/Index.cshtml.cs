@@ -8,7 +8,7 @@ namespace GettingStarted.Web.Pages.Better
     {
         private readonly Service dataService;
 
-        public List<CustomerQueryResult>? Customers { set; get; }
+        public List<CustomersResult>? Customers { set; get; }
 
         public string? ErrorMessage { set; get; }
 
@@ -23,14 +23,14 @@ namespace GettingStarted.Web.Pages.Better
         {
             try
             {
-                var output = dataService.CustomerQuery(new CustomerQueryInput(null, null, null));
+                var output = dataService.Customers();
                 if (output.ResultData is not null)
                 {
                     Customers = output.ResultData;
                 }
                 else
                 {
-                    Customers = new List<CustomerQueryResult>();
+                    Customers = new List<CustomersResult>();
                 }
             }
             catch (Exception ex)

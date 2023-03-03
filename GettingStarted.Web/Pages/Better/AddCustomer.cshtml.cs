@@ -28,7 +28,7 @@ namespace GettingStarted.Web.Pages.Better
                 try
                 {
                     var output = dataService.CustomerInsert(input);
-                    return Redirect("/Good/Index");
+                    return Redirect("/Better/Index");
                 }
                 catch (Exception ex)
                 {
