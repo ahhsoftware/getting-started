@@ -2,8 +2,7 @@
   "profiles": {
     "GettingStarted.Functions": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7293",
-      "launchBrowser": false
+      "commandLineArgs": "--port 7293"
     }
   }
 }

@@ -1,25 +1,25 @@
-﻿@using GettingStarted.DataServices.Good.Models;
+﻿@using GettingStarted.DataServices.Better.Models;
 <div class="container w-75">
     <div class="mx-auto shadow p-5 rounded">
-        <h2 class="text-center mb-5">Add (Good) Customer</h2>
+        <h2 class="text-center mb-5">Add (Better) Customer</h2>
         <div class="mb-4">
             <Dismissable Message="@ErrorMessage" OnCloseClick="()=> ErrorMessage = null" />
             <EditForm OnValidSubmit="OnSubmit" EditContext="_EditContext">
                 <DataAnnotationsValidator />
                 <div class="form-group mb-3">
                     <label>First Name:</label>
-                    <InputText @bind-Value=Input!.FirstName class="form-control"/>
-                     <ValidationMessage For="()=> Input.FirstName" />
+                    <InputText @bind-Value=Input!.FirstName class="form-control" />
+                    <ValidationMessage For="()=> Input.FirstName" />
                 </div>
                 <div class="form-group mb-3">
                     <label>Last Name:</label>
-                    <InputText @bind-Value=Input!.LastName class="form-control"/>
-                     <ValidationMessage For="()=> Input.LastName" />
+                    <InputText @bind-Value=Input!.LastName class="form-control" />
+                    <ValidationMessage For="()=> Input.LastName" />
                 </div>
                 <div class="form-group mb-3">
                     <label>Email:</label>
-                    <InputText @bind-Value=Input!.Email class="form-control"/>
-                    <Vali dationMessage For="()=> Input.Email" />
+                    <InputText @bind-Value=Input!.Email class="form-control" />
+                    <ValidationMessage For="()=> Input.Email" />
                 </div>
                 <div class="d-flex justify-content-between">
                     <button class="btn btn-outline-secondary w-25" @onclick="OnCancel">Cancel</button>
@@ -41,7 +41,7 @@
         set
         {
             _Input = value;
-            if(_Input is not null)
+            if (_Input is not null)
             {
                 _EditContext = new EditContext(_Input);
             }

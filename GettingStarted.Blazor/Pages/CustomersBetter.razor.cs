@@ -1,17 +1,17 @@
 ﻿using GettingStarted.Blazor.Services;
-using GettingStarted.DataServices.Good.Models;
+using GettingStarted.DataServices.Better.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace GettingStarted.Blazor.Pages
 {
-    public partial class CustomersGood
+    public partial class CustomersBetter
     {
         [Inject]
         public IJSRuntime javascript { set; get; } = default!;
 
         private CustomerInsertInput? Insert = null;
-        
+
         private CustomerUpdateInput? Update = null;
 
         private List<CustomersResult>? Customers;
@@ -25,11 +25,11 @@ namespace GettingStarted.Blazor.Pages
         {
             Loading = true;
 
-            var httpOutput = await new HttpService().Good<CustomersOutput>();
+            var httpOutput = await new HttpService().Better<CustomersOutput>();
             if (httpOutput.IsSuccess)
             {
                 var result = httpOutput.Data!;
-                if(result.ResultData is not null)
+                if (result.ResultData is not null)
                 {
                     Customers = httpOutput.Data!.ResultData;
                 }
@@ -49,12 +49,12 @@ namespace GettingStarted.Blazor.Pages
 
         private async Task InsertSaveAsync()
         {
-            if(Insert is not null)
+            if (Insert is not null)
             {
-                var httpResult = await new HttpService().Good<CustomerInsertOutput>(Insert);
+                var httpResult = await new HttpService().Better<CustomerInsertOutput>(Insert);
                 if (httpResult.IsSuccess)
                 {
-                    if(httpResult.Data is not null && httpResult.Data.CustomerId.HasValue)
+                    if (httpResult.Data is not null && httpResult.Data.CustomerId.HasValue)
                     {
                         var customer = new CustomersResult(httpResult.Data.CustomerId.Value, Insert.FirstName!, Insert.LastName!, Insert.Email!);
                         Customers!.Add(customer);
@@ -76,12 +76,12 @@ namespace GettingStarted.Blazor.Pages
 
         private async Task UpdateSaveAsync()
         {
-            var httpResult = await new HttpService().Good<CustomerUpdateOutput>(Update);
-            if(httpResult.IsSuccess)
+            var httpResult = await new HttpService().Better<CustomerUpdateOutput>(Update);
+            if (httpResult.IsSuccess)
             {
                 var existing = Customers!.FirstOrDefault(c => c.CustomerId == Update!.CustomerId);
-                
-                if(existing is null)
+
+                if (existing is null)
                 {
                     Customers!.Add(new CustomersResult(Update!.CustomerId!.Value, Update!.FirstName!, Update!.LastName!, Update!.Email!));
                 }
@@ -90,7 +90,7 @@ namespace GettingStarted.Blazor.Pages
                     existing.FirstName = Update!.FirstName!;
                     existing.LastName = Update!.LastName!;
                     existing.Email = Update!.Email!;
-                    
+
                     Update = null;
                 }
             }
@@ -100,7 +100,7 @@ namespace GettingStarted.Blazor.Pages
             }
         }
 
-        
+
         private async Task DeleteAsync(int customerId)
         {
             var customer = Customers!.FirstOrDefault(c => c.CustomerId == customerId)!;
@@ -109,7 +109,7 @@ namespace GettingStarted.Blazor.Pages
             if (await js.Confirm($"Delete customer {customer.FirstName} {customer.LastName}?"))
             {
                 var http = new HttpService();
-                var httpOutput = http.Good<CustomerDeleteOutput>(new CustomerDeleteInput(customerId));
+                var httpOutput = http.Better<CustomerDeleteOutput>(new CustomerDeleteInput(customerId));
                 Customers!.Remove(customer);
             }
         }
@@ -118,6 +118,6 @@ namespace GettingStarted.Blazor.Pages
         {
             return new CustomerUpdateInput(source.CustomerId, source.FirstName, source.LastName, source.Email);
         }
-        
+
     }
 }

@@ -11,4 +11,11 @@
     [Parameter]
     public string? Message { set; get; }
 
+    [Parameter]
+    public EventCallback OnCloseClick{ set; get; }
+
+    private async Task OnClose()
+    {
+        await OnCloseClick.InvokeAsync();
+    }
 }
