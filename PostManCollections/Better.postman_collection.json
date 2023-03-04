@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "058c7f12-d932-43de-b305-be0eaf617c25",
+		"name": "Better",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20133121"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Better/Customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Better",
+						"Customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerById",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerId\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Better/CustomerById",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Better",
+						"CustomerById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerDelete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerId\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Better/CustomerDelete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Better",
+						"CustomerDelete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerInsert",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Alan\",\r\n    \"LastName\": \"Hyneman\",\r\n    \"Email\": \"ss.net\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Better/CustomerInsert",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Better",
+						"CustomerInsert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerUpdate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"CustomerId\": 1,\r\n    \"FirstName\": \"First\",\r\n    \"LastName\": \"Last\",\r\n    \"Email\": \"Email@valid.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Better/CustomerUpdate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Better",
+						"CustomerUpdate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

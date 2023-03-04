@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using SqlPlusBase;
 using System;
 using System.Reflection;
@@ -22,13 +23,15 @@ namespace GettingStarted.Functions
             string serviceName,
             ILogger log)
         {
-            log.LogInformation("Called v1/admin/{serviceName}", serviceName);
+            log.LogInformation("Called v1/Better/{serviceName}", serviceName);
+
+            // TODO: Insert any security options here
 
             MethodInfo? method = serviceType.GetMethod(serviceName, BindingFlags.Public | BindingFlags.Instance);
 
             if (method == null)
             {
-                return new NotFoundObjectResult($"Service not found: v1/admin/{serviceName}");
+                return new NotFoundObjectResult($"Service not found: v1/Better/{serviceName}");
             }
 
             try
@@ -38,27 +41,29 @@ namespace GettingStarted.Functions
                 if (parameters.Length != 0)
                 {
                     string json = await req.ReadAsStringAsync();
-                    return Execute(method, serviceName, ServiceFactory.BetterDataService, json, log);
+                    return Execute(method, serviceName, json, log);
                 }
 
-                return Execute(method, serviceName);
+                return new OkObjectResult(method.Invoke(ServiceFactory.BetterDataService, null));
 
             }
             catch (Exception ex)
             {
+                // NOTE: We would never return a raw exception in a production environment.
+                
                 log.LogError(ex.Message);
                 return new BadRequestObjectResult(ex.Message);
             }
         }
 
-        private static IActionResult Execute(MethodInfo method, string serviceName)
+        private static IActionResult Execute(MethodInfo method, string serviceName, string json, ILogger log)
         {
-            return new OkObjectResult(method.Invoke(ServiceFactory.BetterDataService, null));
-        }
+            if (string.IsNullOrEmpty(json))
+            {
+                return new BadRequestObjectResult("No json received for service input");
+            }
 
-        private static IActionResult Execute(MethodInfo method, string serviceName, GettingStarted.DataServices.Better.Service service, string json, ILogger log)
-        {
-            Type inputType = Type.GetType($"{SERVICE_NAMESPACE}.Models.{serviceName}Input, {SERVICE_PROJECT}")!;
+            Type? inputType = Type.GetType($"{SERVICE_NAMESPACE}.Models.{serviceName}Input, {SERVICE_PROJECT}");
             if(inputType is null)
             {
                 return new BadRequestObjectResult("Could not resolve type for service input");
@@ -70,12 +75,9 @@ namespace GettingStarted.Functions
                 return new BadRequestObjectResult("Could not instantiate type for service input");
             }
 
-            if (((ValidInput)inputObject).IsValid() == false)
-            {
-                return new BadRequestObjectResult(inputObject);
-            }
+            JsonConvert.PopulateObject(json, inputObject);
 
-            return new OkObjectResult(method.Invoke(service, new object[] { inputObject }));
+            return ((ValidInput)inputObject).IsValid() ? new OkObjectResult(method.Invoke(ServiceFactory.BetterDataService, new object[] { inputObject })) : new BadRequestObjectResult(inputObject);
         }
     }
 }

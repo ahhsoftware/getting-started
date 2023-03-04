@@ -1,0 +1,56 @@
+﻿@using GettingStarted.DataServices.Good.Models;
+<div class="container w-75">
+    <div class="mx-auto shadow p-5 rounded">
+        <h2 class="text-center mb-5">Edit (Good) Customer</h2>
+        <div class="mb-4">
+            <Dismissable Message="@ErrorMessage"/>
+            <EditForm OnValidSubmit="OnSubmit" Model="Input">
+                <input type="hidden" @bind=Input!.CustomerId />
+                <div class="form-group mb-3">
+                    <label>First Name:</label>
+                    <input @bind=Input!.FirstName class="form-control">
+                    <ValidationMessage For="()=> Input.FirstName" />
+                </div>
+                <div class="form-group mb-3">
+                    <label>Last Name:</label>
+                    <input @bind="Input!.LastName" class="form-control">
+                    <ValidationMessage For="()=> Input.FirstName" />
+                </div>
+                <div class="form-group mb-3">
+                    <label>Email:</label>
+                    <input @bind="Input!.Email" class="form-control">
+                    <ValidationMessage For="()=> Input.FirstName" />
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-secondary w-25" @onclick="OnCancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary w-25">Save</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public CustomerUpdateInput? Input { set; get; }
+
+    [Parameter]
+    public EventCallback OnCancelClick { set; get; }
+
+    [Parameter]
+    public EventCallback OnSubmitClick { set; get; }
+
+    [Parameter]
+    public string? ErrorMessage { set; get; }
+
+    private async Task OnSubmit()
+    {
+        await OnSubmitClick.InvokeAsync();
+    }
+
+    private async Task OnCancel()
+    {
+        await OnCancelClick.InvokeAsync();
+    }
+}

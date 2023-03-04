@@ -1,0 +1,14 @@
+﻿@if (Message is not null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <strong>Oops!</strong> @Message
+        <button type="button" class="btn-close" aria-label="Close" @onclick="()=> Message = null"></button>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public string? Message { set; get; }
+
+}

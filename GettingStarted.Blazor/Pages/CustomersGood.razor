@@ -1,0 +1,15 @@
+﻿@page "/good"
+
+@using GettingStarted.Blazor.UIElements
+@if(Insert is not null)
+{
+    <GoodCustomerInsert Input="Insert" OnSubmitClick="InsertSaveAsync" OnCancelClick="() => Insert = null" ErrorMessage="@InsertError"></GoodCustomerInsert>
+}
+else if (Update is not null)
+{
+    <GoodCustomerEdit Input="Update" OnSubmitClick="UpdateSaveAsync" OnCancelClick="() => Update = null" ErrorMessage="@UpdateError"></GoodCustomerEdit>
+}
+else
+{
+    <GoodCustomerTable Customers="Customers" OnDeleteClick="DeleteAsync" OnEditClick="InitUpdate" OnAddClick="InitInsert"></GoodCustomerTable>
+}

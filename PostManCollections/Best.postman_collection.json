@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "93362b29-3efe-4396-8d6b-c7d002bfb796",
+		"name": "Best",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20133121"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PageNumber\": 1,\r\n    \"PageSize\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Best/Customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Best",
+						"Customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomersById",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"customerId\": 20}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Best/CustomerById",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Best",
+						"CustomerById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerSave",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"CustomerId\": 0,\r\n    \"FirstName\": \"Alan\",\r\n    \"LastName\": \"Hyneman\",\r\n    \"Email\": \"Alan@sqlpluss.net\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Best/CustomerSave",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Best",
+						"CustomerSave"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerDelete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerId\": 21\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Best/CustomerDelete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Best",
+						"CustomerDelete"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,83 @@
+﻿@using GettingStarted.DataServices.Good.Models;
+<h4 class="py-1">Customers (Good Example)</h4>
+<table class="table  table-sm table-bordered ">
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>First Name</th>
+            <th>Last Name </th>
+            <th>Email</th>
+            <th colspan="2" class="text-center">
+                <a href="javascript: void(0)" title="Add a new customer" class="text-center" @onclick="InsertAsync">
+                    <span class="oi oi-plus" />
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Customers is null || Customers.Count == 0)
+        {
+            <tr>
+                <td colspan="5" class="text-center">
+                    <p class="px-3 py-3">
+                        You currently have no customers.
+                        Click on the <span class="oi oi-plus" /> icon to add customers.
+                    </p>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var customer in Customers)
+            {
+                <tr>
+                    <td>@customer.CustomerId</td>
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <td>@customer.Email</td>
+
+                    <td align="center" width="48px">
+                        <a class="btn-link m-1" href="javascript: void(0)" @onclick="(() => EditAsync(customer.CustomerId))" title="Delete">
+                            <span class="oi oi-pencil" />
+                        </a>
+                    </td>
+
+                    <td align="center" width="48px">
+                        <a class="btn-link" href="javascript: void(0)" @onclick="(() => DeleteAsync(customer.CustomerId))" title="Delete">
+                            <span class="oi oi-trash text-danger" />
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@code {
+
+    [Parameter]
+    public List<CustomersResult>? Customers { set; get; }
+
+    [Parameter]
+    public EventCallback<int> OnDeleteClick { set; get; }
+
+    [Parameter]
+    public EventCallback<int> OnEditClick { set; get; }
+
+    [Parameter]
+    public EventCallback<int> OnAddClick { set; get; }
+
+    private async Task DeleteAsync(int customerId)
+    {
+        await OnDeleteClick.InvokeAsync(customerId);
+    }
+
+    private async Task EditAsync(int customerId)
+    {
+        await OnEditClick.InvokeAsync(customerId);
+    }
+
+    private async Task InsertAsync()
+    {
+        await OnAddClick.InvokeAsync();
+    }
+}
