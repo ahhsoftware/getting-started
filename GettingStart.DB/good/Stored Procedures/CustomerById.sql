@@ -1,0 +1,25 @@
+﻿--+SqlPlusRoutine
+    --&Author=Alan@SQLPlus.net
+    --&Comment=Selects customer for the given CustomerId.
+    --&SelectType=SingleRow
+--+SqlPlusRoutine
+CREATE PROCEDURE [good].[CustomerById]
+(
+    @CustomerId int
+)
+AS
+BEGIN
+ 
+    SET NOCOUNT ON;
+ 
+    SELECT
+        [CustomerId],
+        [FirstName],
+        [LastName],
+        [Email]
+    FROM
+        [dbo].[Customer]
+    WHERE
+        [CustomerId] = @CustomerId;
+ 
+END;

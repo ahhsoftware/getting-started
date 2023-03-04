@@ -56,5 +56,41 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="good\" />
+    <Folder Include="good\Stored Procedures\" />
+    <Folder Include="better\" />
+    <Folder Include="better\Stored Procedures\" />
+    <Folder Include="best\" />
+    <Folder Include="best\Stored Procedures\" />
+    <Folder Include="admin\" />
+    <Folder Include="admin\Stored Procedures\" />
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Customer.sql" />
+    <Build Include="dbo\Stored Procedures\BasicCRUDProcedures.sql" />
+    <Build Include="good\Stored Procedures\Customers.sql" />
+    <Build Include="good\Stored Procedures\CustomerDelete.sql" />
+    <Build Include="good\Stored Procedures\CustomerById.sql" />
+    <Build Include="good\Stored Procedures\CustomerUpdate.sql" />
+    <Build Include="good\Stored Procedures\CustomerInsert.sql" />
+    <Build Include="better\Stored Procedures\Customers.sql" />
+    <Build Include="better\Stored Procedures\CustomerInsert.sql" />
+    <Build Include="better\Stored Procedures\CustomerUpdate.sql" />
+    <Build Include="better\Stored Procedures\CustomerDelete.sql" />
+    <Build Include="better\Stored Procedures\CustomerById.sql" />
+    <Build Include="best\Stored Procedures\Customers.sql" />
+    <Build Include="best\Stored Procedures\CustomerById.sql" />
+    <Build Include="best\Stored Procedures\CustomerSave.sql" />
+    <Build Include="best\Stored Procedures\CustomerDelete.sql" />
+    <Build Include="admin\Stored Procedures\GenerateCustomers.sql" />
+    <Build Include="admin\Stored Procedures\PrepareForTests.sql" />
+    <Build Include="Security\good.sql" />
+    <Build Include="Security\better.sql" />
+    <Build Include="Security\best.sql" />
+    <Build Include="Security\admin.sql" />
   </ItemGroup>
 </Project>
