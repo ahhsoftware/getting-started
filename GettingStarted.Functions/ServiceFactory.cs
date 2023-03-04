@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace GettingStarted.Functions
 {
@@ -20,7 +15,7 @@ namespace GettingStarted.Functions
             {
                 if(goodDataService is null)
                 {
-                    string connection = Environment.GetEnvironmentVariable("GoodConnectionString")!;
+                    string connection = Environment.GetEnvironmentVariable("ConnectionString")!;
                     goodDataService = new GettingStarted.DataServices.Good.Service(connection);
                 }
                 return goodDataService;
@@ -33,7 +28,7 @@ namespace GettingStarted.Functions
             {
                 if (betterDataService is null)
                 {
-                    string connection = Environment.GetEnvironmentVariable("BetterConnectionString")!;
+                    string connection = Environment.GetEnvironmentVariable("ConnectionString")!;
                     betterDataService = new GettingStarted.DataServices.Better.Service(connection);
                 }
                 return betterDataService;
@@ -46,12 +41,11 @@ namespace GettingStarted.Functions
             {
                 if (betterDataService is null)
                 {
-                    string connection = Environment.GetEnvironmentVariable("BestConnectionString")!;
+                    string connection = Environment.GetEnvironmentVariable("ConnectionString")!;
                     bestDataService = new GettingStarted.DataServices.Best.Service(connection);
                 }
                 return bestDataService;
             }
         }
-
     }
 }
