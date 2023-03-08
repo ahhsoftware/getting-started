@@ -92,6 +92,7 @@ namespace GettingStarted.Blazor.Pages
                     {
                         case CustomerSaveOutput.Returns.Inserted:
                             Customers!.Add(new CustomersResult(output.CustomerId!.Value, Input!.FirstName!, Input!.LastName!, Input!.Email!));
+                            Input = null;
                             break;
                         case CustomerSaveOutput.Returns.Modified:
                             {
@@ -99,6 +100,7 @@ namespace GettingStarted.Blazor.Pages
                                 existing.FirstName = Input!.FirstName!;
                                 existing.LastName = Input!.LastName!;
                                 existing.Email = Input!.Email!;
+                                Input = null;
                                 break;
                             }
 

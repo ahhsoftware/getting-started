@@ -8,6 +8,7 @@ using SqlPlusBase;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using GettingStarted.DataServices.Good.Models;
 
 namespace GettingStarted.Functions
 {
