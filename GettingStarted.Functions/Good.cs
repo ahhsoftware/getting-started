@@ -50,9 +50,10 @@ namespace GettingStarted.Functions
             }
             catch (Exception ex)
             {
-                // NOTE: We would never return a raw exception in a production environment.
+                /* In a production environment this would trigger some kind of incident handling. */
 
                 log.LogError(ex.Message);
+
                 return new BadRequestObjectResult(ex.Message);
             }
         }
@@ -78,8 +79,30 @@ namespace GettingStarted.Functions
 
             JsonConvert.PopulateObject(json, inputObject);
 
-            return ((ValidInput)inputObject).IsValid() ? new OkObjectResult(method.Invoke(ServiceFactory.GoodDataService, new object[] { inputObject })) : new BadRequestObjectResult(inputObject);
-            
+            if(((ValidInput)inputObject).IsValid())
+            {
+                try
+                {
+                    return new OkObjectResult(method.Invoke(ServiceFactory.GoodDataService, new object[] { inputObject }));
+                }
+                catch(Exception ex)
+                {
+                    /* In a production environment this would trigger some kind of incident handling. */
+
+                    log.LogError(ex, "Error in {ServiceName}", serviceName);
+
+                    if(ex.InnerException is not null)
+                    {
+                        return new BadRequestObjectResult(ex.InnerException.Message);
+                    }
+
+                    return new BadRequestObjectResult(ex.Message);
+                }
+            }
+            else
+            {
+                return new BadRequestObjectResult(inputObject);
+            }
         }
     }
 }
