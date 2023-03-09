@@ -2,15 +2,15 @@
 <div class="container w-75">
     <div class="mx-auto shadow p-5 rounded">
         <h2 class="text-center mb-5">Edit (Best) Customer</h2>
-            <Dismissable Message=@ErrorMessage OnCloseClick="() => ErrorMessage = null" />
-            <EditForm OnValidSubmit="()=>OnSubmitClick.InvokeAsync()" EditContext="_EditContext">
-                <DataAnnotationsValidator />
-                <input type="hidden" @bind=Input!.CustomerId />
-                <GSInputText Label="First Name:" ValidationFor="() => Input.FirstName" @bind-Value="Input.FirstName"/>
-                <GSInputText Label="Last Name:" ValidationFor="() => Input.LastName" @bind-Value=Input.LastName/>
-                <GSInputText Label="Email:" ValidationFor="() => Input.Email" @bind-Value=Input.Email Hint="We will never share your personal information." />
-                <GSSaveCancel OnCancelClick="() => OnCancelClick.InvokeAsync()"/>
-            </EditForm>
+        <Dismissable Message=@ErrorMessage OnCloseClick="() => ErrorMessage = null" />
+        <EditForm OnValidSubmit="()=>OnSubmitClick.InvokeAsync()" EditContext="_EditContext">
+            <DataAnnotationsValidator />
+            <input type="hidden" @bind=Input!.CustomerId />
+            <GSInputText Label="First Name:" ValidationFor="() => Input.FirstName" @bind-Value="Input.FirstName" />
+            <GSInputText Label="Last Name:" ValidationFor="() => Input.LastName" @bind-Value=Input.LastName />
+            <GSInputText Label="Email:" ValidationFor="() => Input.Email" @bind-Value=Input.Email Hint="We will never share your personal information." />
+            <GSSaveCancel OnCancelClick="() => OnCancelClick.InvokeAsync()" />
+        </EditForm>
     </div>
 </div>
 
