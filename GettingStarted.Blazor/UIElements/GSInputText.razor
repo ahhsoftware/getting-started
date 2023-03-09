@@ -1,0 +1,49 @@
+﻿@inherits InputBase<string>
+@using System.Linq.Expressions
+
+<div class="form-group mb-3">
+    @if (Label is not null)
+    {
+        <label>@Label</label>
+    }
+    <input class="form-control" @bind="@CurrentValue" />
+    @if(Hint is not null)
+    {
+        <small class="form-text text-muted">@Hint</small>
+    }
+    @if (ValidationFor is not null)
+    {
+        <div class="form-control-validation">
+            <ValidationMessage For="@ValidationFor" />
+        </div>
+    }
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? Hint { get; set; }
+
+    [Parameter, EditorRequired]
+    public Expression<Func<string>> ValidationFor { get; set; } = default!;
+
+    protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)
+    {
+        validationErrorMessage = null;
+
+        if(string.IsNullOrEmpty(value))
+        {
+            result = default;
+        }
+        else
+        {
+            result = value;
+        }
+
+        return true;
+    }
+}

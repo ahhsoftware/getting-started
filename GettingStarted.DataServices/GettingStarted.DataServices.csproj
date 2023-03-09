@@ -10,4 +10,20 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="EditForms.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EditForms.txt</LastGenOutput>
+    </None>
+    <None Update="EditForms.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EditForms.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
 </Project>

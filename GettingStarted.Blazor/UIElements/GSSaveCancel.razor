@@ -1,0 +1,14 @@
+﻿<div class="d-flex justify-content-between mt-4 mb-1">
+    <button class="btn btn-outline-secondary w-25" @onclick="() => OnCancelClick.InvokeAsync()">Cancel</button>
+    <button type="submit" class="btn btn-primary w-25">Save</button>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public EventCallback OnCancelClick { set; get; }
+
+    [Parameter]
+    public EventCallback OnSubmitClick { set; get; }
+}
