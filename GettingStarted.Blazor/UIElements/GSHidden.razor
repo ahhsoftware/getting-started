@@ -1,0 +1,12 @@
+﻿@inherits InputBase<int?>
+<input type="hidden" @bind-value="@CurrentValue"/>
+@code {
+
+    protected override bool TryParseValueFromString(string value, out int? result, out string validationErrorMessage)
+    {
+        validationErrorMessage = null;
+        result = int.Parse(value);
+
+        return true;
+    }
+}

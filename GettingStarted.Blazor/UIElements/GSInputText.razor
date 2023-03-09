@@ -6,7 +6,7 @@
     {
         <label>@Label</label>
     }
-    <input class="form-control" @bind="@CurrentValue" />
+    <input type="text" class="form-control" @bind-value="@CurrentValue" @bind-value:event="oninput" />
     @if(Hint is not null)
     {
         <small class="form-text text-muted">@Hint</small>
@@ -17,7 +17,6 @@
             <ValidationMessage For="@ValidationFor" />
         </div>
     }
-
 </div>
 
 @code {

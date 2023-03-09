@@ -1,0 +1,17 @@
+﻿<div class="container w-75">
+    <div class="mx-auto shadow p-5 rounded">
+        @if(Title is not null)
+        {
+            <h2 class="mb-4">@Title</h2>
+        }
+        @ChildContent
+    </div>
+</div>
+@code {
+
+    [Parameter]
+    public string? Title { set; get; }
+
+    [Parameter]
+    public RenderFragment? ChildContent{ set; get; }
+}

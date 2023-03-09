@@ -19,7 +19,7 @@
                 <div class="form-group mb-3">
                     <label>Email:</label>
                     <InputText @bind-Value=Input!.Email class="form-control"/>
-                    <Vali dationMessage For="()=> Input.Email" />
+                    <ValidationMessage For="()=> Input.Email" />
                 </div>
                 <div class="d-flex justify-content-between">
                     <button class="btn btn-outline-secondary w-25" @onclick="OnCancel">Cancel</button>
