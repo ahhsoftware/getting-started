@@ -39,7 +39,7 @@ namespace GettingStarted.Functions
         {
             get
             {
-                if (betterDataService is null)
+                if (bestDataService is null)
                 {
                     string connection = Environment.GetEnvironmentVariable("ConnectionString")!;
                     bestDataService = new GettingStarted.DataServices.Best.Service(connection);

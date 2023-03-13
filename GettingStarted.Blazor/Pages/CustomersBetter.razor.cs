@@ -109,7 +109,7 @@ namespace GettingStarted.Blazor.Pages
             if (await js.Confirm($"Delete customer {customer.FirstName} {customer.LastName}?"))
             {
                 var http = new HttpService();
-                var httpOutput = http.Better<CustomerDeleteOutput>(new CustomerDeleteInput(customerId));
+                var httpOutput = await http.Better<CustomerDeleteOutput>(new CustomerDeleteInput(customerId));
                 Customers!.Remove(customer);
             }
         }

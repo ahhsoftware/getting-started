@@ -137,7 +137,7 @@ namespace GettingStarted.Blazor.Pages
                 Customers!.Remove(customer);
                 if(Customers.Count == 0)
                 {
-                    await OnPageAsync(CurrentPage - 1);
+                    CurrentPage = CurrentPage == 1 ? CurrentPage : CurrentPage - 1;
                 }
 
                 await OnPageAsync(CurrentPage);
