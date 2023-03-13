@@ -15,7 +15,7 @@ You should have Visual Studio 2022 and Sequel Server Management Studio. If you d
 Within the database there are 3 schemas.
 1. Good illustrates the minimum requirement to generate a service.
 2. Better illustrates adding validation to parameters.
-3. Best illustrated adding return values and display properties to tighten up the user experience.
+3. Best illustrates adding return values and display properties to tighten up the user experience.
 
 ## GettingStarted.Web
 If you compare the pages within each of the folders Good, Better, and Best, you will notice that they are nearly identical. If you compare the database routines in the matching schemas, you will notice that the only differnce is the use of semantic tags. As you work through the various forms and tests withing the applications, try inserting invalid data, and notice the differences in how validation is handled.
@@ -25,3 +25,5 @@ Included in the solution folder is a series of postman collections. Launch the a
 
 ## GettingStarted.Blazor
 This project uses the "GettingStarted.Functions" services so you need to run both projects simultaneously. Again, as with the "GettingStarted.Web" project, you will notice that the pages are nearly identical, while the behaviour is significantly different, with the only difference being the semantic tags that were added to the underlying SQL routines.
+
+Feel free to explore the code and enjoy!
