@@ -1,0 +1,44 @@
+﻿@using GettingStarted.DataServices.Better.Models;
+
+<Dismissable Message=@ErrorMessage OnCloseClick="() => ErrorMessage = null" />
+<EditForm OnValidSubmit="()=>OnSubmitClick.InvokeAsync()" EditContext="_EditContext">
+    <DataAnnotationsValidator />
+    <GSHidden @bind-Value=Input!.CustomerId />
+    <GSInputText Label="First Name:" ValidationFor="() => Input.FirstName" @bind-Value="Input.FirstName" />
+    <GSInputText Label="Last Name:" ValidationFor="() => Input.LastName" @bind-Value=Input.LastName />
+    <GSInputText Label="Email:" ValidationFor="() => Input.Email" @bind-Value=Input.Email Hint="We will never share your personal information." />
+    <GSSaveCancel OnCancelClick="() => OnCancelClick.InvokeAsync()" />
+</EditForm>
+
+@code {
+
+    private CustomerSaveInput? _Input;
+    private EditContext? _EditContext;
+
+    [Parameter]
+    public CustomerSaveInput? Input
+    {
+        set
+        {
+            _Input = value;
+            if (_Input is not null)
+            {
+                _EditContext = new EditContext(_Input);
+            }
+        }
+        get
+        {
+            return _Input;
+        }
+    }
+
+    [Parameter]
+    public EventCallback OnCancelClick { set; get; }
+
+    [Parameter]
+    public EventCallback OnSubmitClick { set; get; }
+
+    [Parameter]
+    public string? ErrorMessage { set; get; }
+
+}

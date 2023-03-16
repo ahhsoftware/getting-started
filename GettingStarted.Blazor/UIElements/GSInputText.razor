@@ -30,13 +30,13 @@
     [Parameter, EditorRequired]
     public Expression<Func<string>> ValidationFor { get; set; } = default!;
 
-    protected override bool TryParseValueFromString(string? value, out string result, out string validationErrorMessage)
+    protected override bool TryParseValueFromString(string value, out string result, out string validationErrorMessage)
     {
         validationErrorMessage = null;
 
         if(string.IsNullOrEmpty(value))
         {
-            result = default;
+            result = null;
         }
         else
         {

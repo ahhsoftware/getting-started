@@ -28,6 +28,8 @@ namespace GettingStarted.Web.Pages.Best
 
         public void OnGet(int pageNumber = 1)
         {
+            Request.HttpContext.Session.SetInt32("page", pageNumber);
+
             try
             {
                 var output = dataService.Customers(new(10, pageNumber));
@@ -59,7 +61,7 @@ namespace GettingStarted.Web.Pages.Best
                 ErrorMessage = ex.Message;
             }
 
-            OnGet();
+            OnGet(GetPage());
         }
 
         private PagingModel? GetPagingModel(int currentPage, int numberOfPages)
@@ -104,6 +106,18 @@ namespace GettingStarted.Web.Pages.Best
         {
             int result = Math.Min(numberOfPages, 9);
             return result % 2 == 0 ? result - 1 : result;
+        }
+
+        public int GetPage()
+        {
+            int result = 1;
+
+            if (Request.HttpContext.Session.GetInt32("page").HasValue)
+            {
+                result = Request.HttpContext.Session.GetInt32("page")!.Value;
+            }
+
+            return result;
         }
     }
 }

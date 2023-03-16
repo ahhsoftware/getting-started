@@ -14,15 +14,15 @@ namespace GettingStarted.Blazor.Services
             client.BaseAddress = new Uri("http://localhost:7293");
         }
 
-        public async Task<HttpResult<T>> Good<T>(object? input = null)
+        public async Task<HttpResult<T>> Bad<T>(object? input = null)
         {
             string serviceName = typeof(T).Name.Replace("Output", "");
-            return await (PostAsync<T>($"/api/v1/Good/{serviceName}", input));
+            return await (PostAsync<T>($"/api/v1/bad/{serviceName}", input));
         }
 
-        public async Task<HttpResult<T>> Good<T>()
+        public async Task<HttpResult<T>> Bad<T>()
         {
-            return await Good<T>(null);
+            return await Bad<T>(null);
         }
 
         public async Task<HttpResult<T>> Better<T>(object? input = null)

@@ -6,16 +6,12 @@
 }
 else
 {
-    @if (Insert is not null)
+    @if (Input is not null)
     {
-        <BetterCustomerInsert Input="Insert" OnSubmitClick="InsertSaveAsync" OnCancelClick="() => Insert = null" ErrorMessage="@InsertError"></BetterCustomerInsert>
-    }
-    else if (Update is not null)
-    {
-        <BetterCustomerEdit Input="Update" OnSubmitClick="UpdateSaveAsync" OnCancelClick="() => Update = null" ErrorMessage="@UpdateError"></BetterCustomerEdit>
+        <BetterCustomerSave Input="Input" OnSubmitClick="SaveAsync" OnCancelClick="() => Input = null" ErrorMessage="@SaveError"></BetterCustomerSave>
     }
     else
     {
-        <BetterCustomerTable Customers="Customers" OnDeleteClick="DeleteAsync" OnEditClick="InitUpdate" OnAddClick="InitInsert"></BetterCustomerTable>
+        <BetterCustomerTable Customers="Customers" OnDeleteClick="DeleteAsync" OnEditClick="InitSave" OnAddClick="InitSave"></BetterCustomerTable>
     }
 }

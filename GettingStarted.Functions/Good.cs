@@ -8,23 +8,23 @@ using SqlPlusBase;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using GettingStarted.DataServices.Good.Models;
+using GettingStarted.DataServices.Bad.Models;
 
 namespace GettingStarted.Functions
 {
-    public static class Good
+    public static class Bad
     {
         private const string SERVICE_PROJECT = "GettingStarted.DataServices";
-        private const string SERVICE_NAMESPACE = "GettingStarted.DataServices.Good";
-        private static readonly Type serviceType = typeof(GettingStarted.DataServices.Good.Service);
+        private const string SERVICE_NAMESPACE = "GettingStarted.DataServices.Bad";
+        private static readonly Type serviceType = typeof(GettingStarted.DataServices.Bad.Service);
 
-        [FunctionName("Good")]
+        [FunctionName("Bad")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/Good/{serviceName}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/Bad/{serviceName}")] HttpRequest req,
             string serviceName,
             ILogger log)
         {
-            log.LogInformation("Called v1/Good/{serviceName}", serviceName);
+            log.LogInformation("Called v1/Bad/{serviceName}", serviceName);
 
             // TODO: Insert any security options here
 
@@ -32,7 +32,7 @@ namespace GettingStarted.Functions
 
             if (method == null)
             {
-                return new NotFoundObjectResult($"Service not found: v1/Good/{serviceName}");
+                return new NotFoundObjectResult($"Service not found: v1/Bad/{serviceName}");
             }
 
             try
@@ -45,7 +45,7 @@ namespace GettingStarted.Functions
                     return Execute(method, serviceName, json, log);
                 }
 
-                return new OkObjectResult(method.Invoke(ServiceFactory.GoodDataService, null));
+                return new OkObjectResult(method.Invoke(ServiceFactory.BadDataService, null));
 
             }
             catch (Exception ex)
@@ -83,7 +83,7 @@ namespace GettingStarted.Functions
             {
                 try
                 {
-                    return new OkObjectResult(method.Invoke(ServiceFactory.GoodDataService, new object[] { inputObject }));
+                    return new OkObjectResult(method.Invoke(ServiceFactory.BadDataService, new object[] { inputObject }));
                 }
                 catch(Exception ex)
                 {

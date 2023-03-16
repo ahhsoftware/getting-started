@@ -1,0 +1,39 @@
+﻿@page
+@model GettingStarted.Web.Pages.Better.CustomerSaveModel
+<div class="container w-50">
+    <div class="mx-auto shadow p-5 rounded">
+        <h2 class="text-center mb-5">Edit Customer (Better)</h2>
+        <div class="mb-4">
+            <form method="post">
+                <input type="hidden" asp-for="Input!.CustomerId" />
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Oops!</strong> @Model.ErrorMessage
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                    </div>
+                }
+                <div class="form-group mb-3">
+                    <label asp-for="Input!.FirstName">First Name:</label>
+                    <input asp-for="Input!.FirstName" class="form-control">
+                    <span asp-validation-for="Input!.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Input!.LastName">Last Name:</label>
+                    <input asp-for="Input!.LastName" class="form-control">
+                    <span asp-validation-for="Input!.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Input!.Email">Email:</label>
+                    <input asp-for="Input!.Email" class="form-control">
+                    <span asp-validation-for="Input!.Email" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a asp-page="/Better/Index" asp-route-pageNumber="@Model.GetPage()" class="btn btn-outline-secondary w-25">Cancel</a>
+                    <button type="submit" class="btn btn-primary w-25">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

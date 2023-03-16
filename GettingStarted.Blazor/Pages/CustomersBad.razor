@@ -1,0 +1,26 @@
+﻿@page "/bad"
+@using GettingStarted.Blazor.UIElements
+@if (Loading)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (Input is not null)
+    {
+        <GSFormWrapper Title="Edit (Best) Customer">
+            <BadCustomerSave Input="Input" OnSubmitClick="SaveAsync" OnCancelClick="() => Input = null" ErrorMessage="@SaveError"></BadCustomerSave>
+        </GSFormWrapper>
+    }
+    else
+    {
+        @if (GridError is not null)
+        {
+            <Dismissable Message="@GridError" OnCloseClick="() => GridError = null" />
+        }
+        else
+        {
+            <BadCustomerTable Customers="Customers" OnDeleteClick="DeleteAsync" OnEditClick="InitSave" OnAddClick="InitSave" CurrentPage="@CurrentPage" PageCount="@PageCount" OnPageClick="@GetCustomersAsync"></BadCustomerTable>
+        }
+    }
+}

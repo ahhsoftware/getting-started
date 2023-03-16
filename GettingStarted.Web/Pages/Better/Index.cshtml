@@ -9,14 +9,14 @@
             <th>Last Name </th>
             <th>Email</th>
             <th colspan="2" class="text-center">
-                <a asp-page="/Better/AddCustomer" title="Add a new custmer" class="text-center">
+                <a asp-page="/Better/CustomerSave" title="Add a new custmer" class="text-center">
                     <i class="fa fa-plus"></i>
                 </a>
             </th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.Customers is null || Model.Customers.Count == 0)
+        @if (Model.Customers is null)
         {
             <tr>
                 <td colspan="5" class="text-center">
@@ -37,7 +37,7 @@
                     <td>@customer.LastName</td>
                     <td>@customer.Email</td>
                     <td align="center" width="48px">
-                        <a asp-page="/Better/EditCustomer" asp-route-customerId="@customer.CustomerId">
+                        <a asp-page="/Better/CustomerSave" asp-route-customerId="@customer.CustomerId">
                             <i class="fa fa-pencil text-info"></i>
                         </a>
                     </td>
@@ -51,3 +51,22 @@
         }
     </tbody>
 </table>
+@if (Model.Pages is not null)
+{
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <li class="page-item @(Model.Pages.PreviousPage is null ? "disabled" : String.Empty)">
+                <a class="page-link" asp-page="/Better/Index" asp-route-pageNumber="@Model.Pages.PreviousPage">Previous</a>
+            </li>
+            @foreach (int pageItem in Model.Pages.PageItems!)
+            {
+                <li class="page-item text-center @(Model.Pages.CurrentPage == pageItem ? "disabled" : String.Empty)" style="width:3rem;">
+                    <a class="page-link" asp-page="/Better/Index" asp-route-pageNumber="@pageItem">@pageItem</a>
+                </li>
+            }
+            <li class="page-item @(Model.Pages.NextPage is null ? "disabled" : String.Empty)">
+                <a class="page-link" asp-page="/Better/Index" asp-route-pageNumber="@Model.Pages.NextPage">Next</a>
+            </li>
+        </ul>
+    </nav>
+}

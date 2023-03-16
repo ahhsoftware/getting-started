@@ -6,9 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 string connection = builder.Configuration["ConnectionString"];
-builder.Services.AddSingleton<GettingStarted.DataServices.Good.Service>((o) =>
+builder.Services.AddSingleton<GettingStarted.DataServices.Bad.Service>((o) =>
 {
-    return new GettingStarted.DataServices.Good.Service(connection);
+    return new GettingStarted.DataServices.Bad.Service(connection);
 });
 builder.Services.AddSingleton<GettingStarted.DataServices.Better.Service>((o) =>
 {
@@ -18,6 +18,7 @@ builder.Services.AddSingleton<GettingStarted.DataServices.Best.Service>((o) =>
 {
     return new GettingStarted.DataServices.Best.Service(connection);
 });
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -28,6 +29,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseSession();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -16,7 +16,7 @@ namespace GettingStarted.Blazor.Pages
 
         public bool Loading = false;
 
-        private string? InputError = null;
+        private string? SaveError = null;
 
         private string? GridError = null;
 
@@ -27,56 +27,37 @@ namespace GettingStarted.Blazor.Pages
         protected override async Task OnInitializedAsync()
         {
             Loading = true;
-            GridError = null;
-
-            var httpOutput = await new HttpService().Best<CustomersOutput>(new CustomersInput(10, 1));
-            if (httpOutput.IsSuccess)
-            {
-                var output = httpOutput.Data!;
-                if(output.ReturnValue == CustomersOutput.Returns.NoRecords)
-                {
-                    Customers = new List<CustomersResult>();
-                }
-                if(output.ReturnValue == CustomersOutput.Returns.Ok)
-                {
-                    Customers = output.ResultData;
-                    PageCount = output.PageCount!.Value;
-                }
-            }
-            else
-            {
-                GridError = httpOutput.ErrorResult;
-            }
+            await GetCustomersAsync(1);
             Loading = false;
         }
 
-        private async Task OnPageAsync(int page)
+        private async Task GetCustomersAsync(int page)
         {
-            var httpOutput = await new HttpService().Best<CustomersOutput>(new CustomersInput(10, page));
-
+            GridError = null;
+            
+            var httpOutput = await new HttpService().Best<CustomersOutput>(new CustomersInput(10, 1));
+            
             if (httpOutput.IsSuccess)
             {
+                // Nothing left to chance here when we are using return values
+
                 var output = httpOutput.Data!;
-                if (output.ReturnValue == CustomersOutput.Returns.NoRecords)
-                {
-                    Customers = new List<CustomersResult>();
-                }
-                if (output.ReturnValue == CustomersOutput.Returns.Ok)
+
+                if(output.ReturnValue == CustomersOutput.Returns.NoRecords)
                 {
                     Customers = output.ResultData;
                     PageCount = output.PageCount!.Value;
-                    CurrentPage = page;
+                }
+                else
+                {
+                    Customers = new List<CustomersResult>();
+                    PageCount = 1;
                 }
             }
             else
             {
                 GridError = httpOutput.ErrorResult;
             }
-        }
-        private void InitInsert()
-        {
-            Input = new CustomerSaveInput();
-            InputError = null;
         }
 
         private async Task SaveAsync()
@@ -105,24 +86,33 @@ namespace GettingStarted.Blazor.Pages
                             }
 
                         case CustomerSaveOutput.Returns.Duplicate:
-                            InputError = "A customer with that email already exists";
+                            SaveError = "A customer with that email already exists";
                             break;
                         case CustomerSaveOutput.Returns.NotFound:
-                            InputError = "This customer no longer exists. It may have been deleted by another user.";
+                            SaveError = "This customer no longer exists. It may have been deleted by another user.";
                             break;
                     }
                 }
                 else
                 {
-                    InputError = httpResult.ErrorResult;
+                    SaveError = httpResult.ErrorResult;
                 }
             }
         }
 
-        private void InitUpdate(int customerId)
+        private void InitSave(int customerId)
         {
-            Input = Map(Customers!.FirstOrDefault(c => c.CustomerId == customerId)!);
-            InputError = null;
+            SaveError = null;
+
+            if (customerId == 0)
+            {
+                // Letting default values handle things
+                Input = new CustomerSaveInput();
+            }
+            else
+            {
+                Input = Map(Customers!.FirstOrDefault(c => c.CustomerId == customerId)!);
+            }
         }
 
         private async Task DeleteAsync(int customerId)
@@ -140,7 +130,7 @@ namespace GettingStarted.Blazor.Pages
                     CurrentPage = CurrentPage == 1 ? CurrentPage : CurrentPage - 1;
                 }
 
-                await OnPageAsync(CurrentPage);
+                await GetCustomersAsync(CurrentPage);
             }
         }
 

@@ -5,20 +5,20 @@ namespace GettingStarted.Functions
     internal class ServiceFactory
     {
         
-        private static GettingStarted.DataServices.Good.Service? goodDataService;
+        private static GettingStarted.DataServices.Bad.Service? badDataService;
         private static GettingStarted.DataServices.Better.Service? betterDataService;
         private static GettingStarted.DataServices.Best.Service? bestDataService;
 
-        public static GettingStarted.DataServices.Good.Service GoodDataService
+        public static GettingStarted.DataServices.Bad.Service BadDataService
         {
             get
             {
-                if(goodDataService is null)
+                if(badDataService is null)
                 {
                     string connection = Environment.GetEnvironmentVariable("ConnectionString")!;
-                    goodDataService = new GettingStarted.DataServices.Good.Service(connection);
+                    badDataService = new GettingStarted.DataServices.Bad.Service(connection);
                 }
-                return goodDataService;
+                return badDataService;
             }
         }
 

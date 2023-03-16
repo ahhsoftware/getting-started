@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <DocumentationFile>c:\git\data.html</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

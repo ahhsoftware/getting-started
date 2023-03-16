@@ -10,97 +10,101 @@ namespace GettingStarted.Blazor.Pages
         [Inject]
         public IJSRuntime javascript { set; get; } = default!;
 
-        private CustomerInsertInput? Insert = null;
-
-        private CustomerUpdateInput? Update = null;
+        private CustomerSaveInput? Input = null;
 
         private List<CustomersResult>? Customers;
 
-        public bool Loading = false;
+        private bool Loading = false;
 
-        private string? InsertError = null;
-        private string? UpdateError = null;
+        private string? SaveError = null;
+
+        private string? GridError = null;
+
+        public int CurrentPage = 1;
+
+        public int PageCount = 1;
 
         protected override async Task OnInitializedAsync()
         {
             Loading = true;
+            await GetCustomersAsync(1);
+            Loading = false;
+        }
 
-            var httpOutput = await new HttpService().Better<CustomersOutput>();
+        private async Task GetCustomersAsync(int page)
+        {
+            GridError = null;
+
+            var httpOutput = await new HttpService().Best<CustomersOutput>(new CustomersInput(10, 1));
+
             if (httpOutput.IsSuccess)
             {
-                var result = httpOutput.Data!;
-                if (result.ResultData is not null)
+                // We have to inspect the results to determine the output without return values
+
+                var output = httpOutput.Data!;
+
+                if (output.ResultData is not null && output.ResultData.Count != 0)
                 {
-                    Customers = httpOutput.Data!.ResultData;
+                    Customers = output.ResultData;
+                    PageCount = output.PageCount!.Value;
                 }
                 else
                 {
                     Customers = new List<CustomersResult>();
-                }
-            }
-            Loading = false;
-        }
-
-        private void InitInsert()
-        {
-            Insert = new CustomerInsertInput();
-            InsertError = null;
-        }
-
-        private async Task InsertSaveAsync()
-        {
-            if (Insert is not null)
-            {
-                var httpResult = await new HttpService().Better<CustomerInsertOutput>(Insert);
-                if (httpResult.IsSuccess)
-                {
-                    if (httpResult.Data is not null && httpResult.Data.CustomerId.HasValue)
-                    {
-                        var customer = new CustomersResult(httpResult.Data.CustomerId.Value, Insert.FirstName!, Insert.LastName!, Insert.Email!);
-                        Customers!.Add(customer);
-                        Insert = null;
-                    }
-                }
-                else
-                {
-                    InsertError = httpResult.ErrorResult;
-                }
-            }
-        }
-
-        private void InitUpdate(int customerId)
-        {
-            Update = Map(Customers!.FirstOrDefault(c => c.CustomerId == customerId)!);
-            UpdateError = null;
-        }
-
-        private async Task UpdateSaveAsync()
-        {
-            var httpResult = await new HttpService().Better<CustomerUpdateOutput>(Update);
-            if (httpResult.IsSuccess)
-            {
-                var existing = Customers!.FirstOrDefault(c => c.CustomerId == Update!.CustomerId);
-
-                if (existing is null)
-                {
-                    Customers!.Add(new CustomersResult(Update!.CustomerId!.Value, Update!.FirstName!, Update!.LastName!, Update!.Email!));
-                }
-                else
-                {
-                    existing.FirstName = Update!.FirstName!;
-                    existing.LastName = Update!.LastName!;
-                    existing.Email = Update!.Email!;
-
-                    Update = null;
+                    PageCount = 1;
                 }
             }
             else
             {
-                UpdateError = httpResult.ErrorResult;
+                GridError = httpOutput.ErrorResult;
             }
         }
 
+        private void InitSave(int customerId)
+        {
+            SaveError = null;
 
+            if (customerId == 0)
+            {
+                // Since we don't have default values we have to do this manually
+
+                Input = new CustomerSaveInput(0, null, null, null);
+            }
+            else
+            {
+                Input = Map(Customers!.FirstOrDefault(c => c.CustomerId == customerId)!);
+            }
+        }
+
+        private async Task SaveAsync()
+        {
+            if (Input is not null)
+            {
+                var httpResult = await new HttpService().Best<CustomerSaveOutput>(Input);
+                if (httpResult.IsSuccess)
+                {
+                    var output = httpResult.Data;
+
+                    if (Input.CustomerId != 0)
+                    {
+                        var existing = Customers!.FirstOrDefault(c => c.CustomerId == output.CustomerId!.Value)!;
+                        existing.FirstName = Input!.FirstName!;
+                        existing.LastName = Input!.LastName!;
+                        existing.Email = Input!.Email!;
+                        Input = null;
+                    }
+                    else
+                    {
+                        Customers!.Add(new CustomersResult(output.CustomerId!.Value, Input!.FirstName!, Input!.LastName!, Input!.Email!));
+                    }
+                }
+                else
+                {
+                    SaveError = httpResult.ErrorResult;
+                }
+            }
+        }
+        
         private async Task DeleteAsync(int customerId)
         {
             var customer = Customers!.FirstOrDefault(c => c.CustomerId == customerId)!;
@@ -114,9 +118,9 @@ namespace GettingStarted.Blazor.Pages
             }
         }
 
-        private CustomerUpdateInput Map(CustomersResult source)
+        private CustomerSaveInput Map(CustomersResult source)
         {
-            return new CustomerUpdateInput(source.CustomerId, source.FirstName, source.LastName, source.Email);
+            return new CustomerSaveInput(source.CustomerId, source.FirstName, source.LastName, source.Email);
         }
 
     }

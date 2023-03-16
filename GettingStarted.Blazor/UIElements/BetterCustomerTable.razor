@@ -1,5 +1,5 @@
 ﻿@using GettingStarted.DataServices.Better.Models;
-<h4 class="py-1">Customers (Better Example)</h4>
+<h4 class="py-1">Customers (Better Example) Page: @CurrentPage</h4>
 <table class="table  table-sm table-bordered ">
     <thead>
         <tr>
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (Customers is null || Customers.Count == 0)
+        @if (Customers!.Count == 0)
         {
             <tr>
                 <td colspan="5" class="text-center">
@@ -52,10 +52,73 @@
         }
     </tbody>
 </table>
+@if (pageNumbers is not null)
+{
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <li class="page-item @(previousPage == CurrentPage ? "disabled" : String.Empty)">
+                <a href="javascript:void(0)" class="page-link" @onclick="() => PageAsync(previousPage)">Previous</a>
+            </li>
+            @foreach (int pageNumber in pageNumbers)
+            {
+                <li class="page-item text-center @(pageNumber == CurrentPage ? "disabled" : String.Empty)" style="width:3rem;">
+                    <a class="page-link" href="javascript:void(0)" @onclick="() => PageAsync(pageNumber)">@pageNumber</a>
+                </li>
+            }
+            <li class="page-item @(nextPage == CurrentPage ? "disabled" : String.Empty)">
+                <a href="javascript:void(0)" class="page-link" @onclick="() => PageAsync(nextPage)">Next</a>
+            </li>
+        </ul>
+    </nav>
+}
+
 @code {
 
     [Parameter]
     public List<CustomersResult>? Customers { set; get; }
+
+    private int _PageCount;
+
+    [Parameter]
+    public int PageCount
+    {
+        set
+        {
+            if (_PageCount != value)
+            {
+                _PageCount = value;
+                if (initialized)
+                {
+                    GetPagingModel();
+                }
+            }
+        }
+        get
+        {
+            return _PageCount;
+        }
+    }
+
+    private int _CurrentPage;
+    [Parameter]
+    public int CurrentPage
+    {
+        set
+        {
+            if (_CurrentPage != value)
+            {
+                _CurrentPage = value;
+                if (initialized)
+                {
+                    GetPagingModel();
+                }
+            }
+        }
+        get
+        {
+            return _CurrentPage;
+        }
+    }
 
     [Parameter]
     public EventCallback<int> OnDeleteClick { set; get; }
@@ -65,6 +128,10 @@
 
     [Parameter]
     public EventCallback<int> OnAddClick { set; get; }
+
+    [Parameter]
+    public EventCallback<int> OnPageClick { set; get; }
+
 
     private async Task DeleteAsync(int customerId)
     {
@@ -80,4 +147,83 @@
     {
         await OnAddClick.InvokeAsync();
     }
+
+    private async Task PageAsync(int? page)
+    {
+        if (page is not null)
+        {
+            await OnPageClick.InvokeAsync(page.Value);
+        }
+    }
+
+    private bool initialized = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        initialized = true;
+
+        GetPagingModel();
+    }
+
+    private int? previousPage = 0;
+    private int? nextPage = 0;
+    private List<int>? pageNumbers = null;
+
+
+    private void GetPagingModel()
+    {
+        int numberOfPages = PageCount;
+        int currentPage = CurrentPage;
+
+        if (numberOfPages > 1)
+        {
+            int numberOfPagesToDisplay = NumberOfPagesToDisplay(numberOfPages, 9);
+
+            PagingModel result = new() { CurrentPage = currentPage, PageItems = new List<int>() };
+
+            result.PreviousPage = Math.Max(currentPage - 1, 1);
+            result.NextPage = Math.Min(currentPage + 1, numberOfPages);
+
+            int firstPageToDisplay = Math.Max(currentPage - 4, 1);
+            int lastPageToDisplay = Math.Min(firstPageToDisplay + 8, numberOfPages);
+            int rangeToDisplay = lastPageToDisplay - firstPageToDisplay + 1;
+
+            if (rangeToDisplay < numberOfPagesToDisplay)
+            {
+                if (lastPageToDisplay == numberOfPages)
+                {
+                    firstPageToDisplay = numberOfPages - numberOfPagesToDisplay;
+                }
+                else
+                {
+                    lastPageToDisplay = numberOfPages;
+                }
+            }
+
+            for (int idx = firstPageToDisplay; idx <= lastPageToDisplay; idx++)
+            {
+                result.PageItems.Add(idx);
+            }
+
+            previousPage = result.PreviousPage;
+            nextPage = result.NextPage;
+            pageNumbers = result.PageItems;
+        }
+    }
+
+    private int NumberOfPagesToDisplay(int numberOfPages, int maxNumber)
+    {
+        int result = Math.Min(numberOfPages, 9);
+        return result % 2 == 0 ? result - 1 : result;
+    }
+
+    private class PagingModel
+    {
+        public int? PreviousPage { set; get; }
+        public int? NextPage { set; get; }
+        public int? CurrentPage { set; get; }
+        public List<int>? PageItems { set; get; }
+    }
+
 }
