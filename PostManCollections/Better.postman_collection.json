@@ -11,6 +11,15 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PageSize\": 10,\r\n    \"PageNumber\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:7293/api/v1/Better/Customers",
 					"protocol": "http",
@@ -35,7 +44,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"customerId\": 3\r\n}",
+					"raw": "{\r\n    \"customerId\": 4\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -66,7 +75,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"customerId\": 3\r\n}",
+					"raw": "{\r\n    \"customerId\": 32\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -91,13 +100,13 @@
 			"response": []
 		},
 		{
-			"name": "CustomerInsert",
+			"name": "CustomerSave",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"FirstName\": \"Alan\",\r\n    \"LastName\": \"Hyneman\",\r\n    \"Email\": \"ss.net\"\r\n}",
+					"raw": "{\r\n    \"FirstName\": \"Alan\",\r\n    \"LastName\": \"Hyneman\",\r\n    \"Email\": \"ss@.snet\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -105,7 +114,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7293/api/v1/Better/CustomerInsert",
+					"raw": "http://localhost:7293/api/v1/Better/CustomerSave",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -115,38 +124,7 @@
 						"api",
 						"v1",
 						"Better",
-						"CustomerInsert"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "CustomerUpdate",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"CustomerId\": 1,\r\n    \"FirstName\": \"First\",\r\n    \"LastName\": \"Last\",\r\n    \"Email\": \"Email@valid.com\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:7293/api/v1/Better/CustomerUpdate",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "7293",
-					"path": [
-						"api",
-						"v1",
-						"Better",
-						"CustomerUpdate"
+						"CustomerSave"
 					]
 				}
 			},
