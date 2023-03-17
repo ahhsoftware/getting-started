@@ -2,7 +2,7 @@
 {
     <div class="alert alert-danger alert-dismissible fade show">
         <strong>Oops!</strong> @Message
-        <button type="button" class="btn-close" aria-label="Close" @onclick="()=> Message = null"></button>
+        <button type="button" class="btn-close" aria-label="Close" @onclick="OnClick"></button>
     </div>
 }
 
@@ -12,10 +12,10 @@
     public string? Message { set; get; }
 
     [Parameter]
-    public EventCallback OnCloseClick{ set; get; }
+    public EventCallback OnDismissClick{ set; get; }
 
-    private async Task OnClose()
+    private async Task OnClick()
     {
-        await OnCloseClick.InvokeAsync();
+        await OnDismissClick.InvokeAsync();
     }
 }

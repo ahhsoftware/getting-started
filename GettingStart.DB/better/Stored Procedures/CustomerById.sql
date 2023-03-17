@@ -1,6 +1,6 @@
 ﻿--+SqlPlusRoutine
     --&Author=Alan@SQLPlus.net
-    --&Comment=Selects customer for the given CustomerId.
+    --&Comment=Selects customer for the given CustomerId, parameter validation, no return values.
     --&SelectType=SingleRow
 --+SqlPlusRoutine
 CREATE PROCEDURE [better].[CustomerById]

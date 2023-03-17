@@ -1,16 +1,18 @@
 ﻿--+SqlPlusRoutine
     --&Author=Alan@SQLPlus.net
-    --&Comment=Gets all customers.
+    --&Comment=Gets all customers, parameter validation, default values, return values.
     --&SelectType=MultiRow
 --+SqlPlusRoutine
 CREATE PROCEDURE [best].[Customers]
 (
 	--+Required
 	--+Range=10,50
+	--+Default=10
+	--+Comment=Supply a value in the range of 10-50
 	@PageSize int,
 
 	--+Required
-	--+Default=10
+	--+Default=1
 	@PageNumber int,
 	
 	@PageCount int out
@@ -58,6 +60,5 @@ BEGIN
 	
 	--+Return=Ok
 	RETURN 1;
-
 
 END;

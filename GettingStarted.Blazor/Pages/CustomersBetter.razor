@@ -8,10 +8,31 @@ else
 {
     @if (Input is not null)
     {
-        <BetterCustomerSave Input="Input" OnSubmitClick="SaveAsync" OnCancelClick="() => Input = null" ErrorMessage="@SaveError"></BetterCustomerSave>
+        <GSWrapper Title="Edit (Better) Customer">
+            <BetterCustomerSave Input="Input" OnSubmitClick="SaveAsync" OnCancelClick="() => Input = null" ErrorMessage="@SaveError"></BetterCustomerSave>
+        </GSWrapper>
+
+        <br/>
+
+        <GSWrapper>
+            <small>
+                The Better example is bound to models from the Better namespace.
+                It makes calls to an azure function that in turn executes against the routines in the better schema.
+                The Better schema has parameter validaton and default values, no display values and no return values.
+                If you add/edit customers against "Better" you will notice no dirty data gets through, but the error message for last name and first name
+                show as LastName and FirstName, and an exception is returned when the email index is violated.
+            </small>
+        </GSWrapper>
     }
     else
     {
-        <BetterCustomerTable Customers="Customers" OnDeleteClick="DeleteAsync" OnEditClick="InitSave" OnAddClick="InitSave"></BetterCustomerTable>
+        @if (GridError is not null)
+        {
+            <Dismissable Message="@GridError" OnDismissClick="() => GridError = null" />
+        }
+        else
+        {
+            <BetterCustomerTable Customers="Customers" OnDeleteClick="DeleteAsync" OnEditClick="InitSave" OnAddClick="InitSave" CurrentPage="@CurrentPage" PageCount="@PageCount" OnPageClick="@GetCustomersAsync"></BetterCustomerTable>
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿--+SqlPlusRoutine
     --&Author=Alan@sqlplus.net
-    --&Comment=Deletes customer by id.
+    --&Comment=Deletes customer for the given CustomerId, parameter validation, return values.
     --&SelectType=NonQuery
 --+SqlPlusRoutine
 CREATE PROCEDURE [best].[CustomerDelete]

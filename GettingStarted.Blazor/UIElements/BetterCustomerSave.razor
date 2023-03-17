@@ -1,6 +1,6 @@
 ﻿@using GettingStarted.DataServices.Better.Models;
 
-<Dismissable Message=@ErrorMessage OnCloseClick="() => ErrorMessage = null" />
+<Dismissable Message=@ErrorMessage OnDismissClick="() => ErrorMessage = null" />
 <EditForm OnValidSubmit="()=>OnSubmitClick.InvokeAsync()" EditContext="_EditContext">
     <DataAnnotationsValidator />
     <GSHidden @bind-Value=Input!.CustomerId />

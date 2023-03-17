@@ -35,23 +35,26 @@ namespace GettingStarted.Blazor.Pages
         {
             GridError = null;
 
-            var httpOutput = await new HttpService().Best<CustomersOutput>(new CustomersInput(10, 1));
+            var httpOutput = await new HttpService().Bad<CustomersOutput>(new CustomersInput(10, page));
             
             if (httpOutput.IsSuccess)
             {
-                // We have to inspect the results to determine the output without return values
-
-                var output = httpOutput.Data!;
-
-                if (output.ResultData is not null && output.ResultData.Count != 0)
+                if(httpOutput.Data is not null)
                 {
-                    Customers = output.ResultData;
-                    PageCount = output.PageCount!.Value;
-                }
-                else
-                {
-                    Customers = new List<CustomersResult>();
-                    PageCount = 1;
+                    var resultOutput = httpOutput.Data!;
+
+                    if (resultOutput.ResultData is not null)
+                    {
+                        Customers = resultOutput.ResultData;
+                        PageCount = resultOutput.PageCount!.Value;
+                        CurrentPage = page;
+                    }
+                    else
+                    {
+                        Customers = new List<CustomersResult>();
+                        PageCount = 1;
+                        CurrentPage = 1;
+                    }
                 }
             }
             else
@@ -62,40 +65,45 @@ namespace GettingStarted.Blazor.Pages
 
         private void InitSave(int customerId)
         {
-            SaveError = null;
-
             if (customerId == 0)
             {
-                // Since we don't have default values we have to do this manually
-
                 Input = new CustomerSaveInput(0, null, null, null);
             }
             else
             {
                 Input = Map(Customers!.FirstOrDefault(c => c.CustomerId == customerId)!);
             }
+
+            SaveError = null;
         }
 
         private async Task SaveAsync()
         {
+            SaveError = null;
+
             if (Input is not null)
             {
                 var httpResult = await new HttpService().Bad<CustomerSaveOutput>(Input);
+                
                 if (httpResult.IsSuccess)
                 {
-                    var output = httpResult.Data;
+                    if(httpResult.Data is not null)
+                    {
+                        var output = httpResult.Data;
 
-                    if(Input.CustomerId != 0)
-                    {
-                        var existing = Customers!.FirstOrDefault(c => c.CustomerId == output.CustomerId!.Value)!;
-                        existing.FirstName = Input!.FirstName!;
-                        existing.LastName = Input!.LastName!;
-                        existing.Email = Input!.Email!;
+                        if (Input.CustomerId != 0)
+                        {
+                            var existing = Customers!.FirstOrDefault(c => c.CustomerId == output.CustomerId!.Value)!;
+                            existing.FirstName = Input!.FirstName!;
+                            existing.LastName = Input!.LastName!;
+                            existing.Email = Input!.Email!;
+                        }
+                        else
+                        {
+                            Customers!.Add(new CustomersResult(output.CustomerId!.Value, Input!.FirstName!, Input!.LastName!, Input!.Email!));
+                        }
+
                         Input = null;
-                    }
-                    else
-                    {
-                        Customers!.Add(new CustomersResult(output.CustomerId!.Value, Input!.FirstName!, Input!.LastName!, Input!.Email!));
                     }
                 }
                 else
@@ -110,23 +118,34 @@ namespace GettingStarted.Blazor.Pages
             var customer = Customers!.FirstOrDefault(c => c.CustomerId == customerId)!;
 
             JsService js = new JsService(javascript);
+            
             if (await js.Confirm($"Delete customer {customer.FirstName} {customer.LastName}?"))
             {
                 var http = new HttpService();
-                var httpOutput = http.Best<CustomerDeleteOutput>(new CustomerDeleteInput(customerId));
-                Customers!.Remove(customer);
-                if (Customers.Count == 0)
-                {
-                    CurrentPage = CurrentPage == 1 ? CurrentPage : CurrentPage - 1;
-                }
+                
+                var httpOutput = await http.Bad<CustomerDeleteOutput>(new CustomerDeleteInput(customerId));
 
-                await GetCustomersAsync(CurrentPage);
+                if (httpOutput.IsSuccess)
+                {
+                    Customers!.Remove(customer);
+
+                    if (Customers.Count == 0)
+                    {
+                        CurrentPage = CurrentPage == 1 ? CurrentPage : CurrentPage - 1;
+                    }
+
+                    await GetCustomersAsync(CurrentPage);
+                }
+                else
+                {
+                    await js.Alert(httpOutput.ErrorResult!);
+                }
             }
         }
 
         private CustomerSaveInput Map(CustomersResult source)
         {
-            return new CustomerSaveInput(source.CustomerId, source.FirstName, source.LastName, source.Email);
+            return new CustomerSaveInput(source.CustomerId, source.LastName, source.FirstName, source.Email);
         }
     }
 }

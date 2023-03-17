@@ -8,15 +8,26 @@ else
 {
     @if (Input is not null)
     {
-        <GSFormWrapper Title="Edit (Best) Customer">
+        <GSWrapper Title="Edit (Bad) Customer">
             <BadCustomerSave Input="Input" OnSubmitClick="SaveAsync" OnCancelClick="() => Input = null" ErrorMessage="@SaveError"></BadCustomerSave>
-        </GSFormWrapper>
+        </GSWrapper>
+
+        <br />
+
+        <GSWrapper>
+            <small>
+                The bad example is bound to models from the Bad namespace.
+                It makes calls to an azure function that in turn executes against routines in the bad schema
+                The bad schema has no parameter validaton, no default values, no display values, and no return values.
+                If you add/edit customers against "Bad" you will notice dirty data gets through, and an exception is returned when the email index is violated.
+            </small>
+        </GSWrapper>
     }
     else
     {
         @if (GridError is not null)
         {
-            <Dismissable Message="@GridError" OnCloseClick="() => GridError = null" />
+            <Dismissable Message="@GridError" OnDismissClick="() => GridError = null" />
         }
         else
         {

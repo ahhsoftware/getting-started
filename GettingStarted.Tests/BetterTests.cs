@@ -1,12 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GettingStarted.DataServices.Better.Models;
 
 namespace GettingStarted.Tests
 {
-    internal class BetterTests
+    [TestClass]
+    public class BetterTests
     {
+        private GettingStarted.DataServices.Better.Service service = new("server=(local); initial catalog = gettingstarted; integrated security = true");
+
+
+        [TestMethod]
+        public void A_Customer_Null_Values_NotValid()
+        {
+            // Using the object constructor
+            var input = new CustomerSaveInput();
+
+            Assert.IsFalse(input.IsValid());
+
+            WriteValidationError(input);
+
+        }
+
+        [TestMethod]
+        public void B_Customer_InvalidEmail_NotValid()
+        {
+            // Using the object constructor
+            var input = new CustomerSaveInput(0,"last","first","invalidEmail");
+
+            Assert.IsFalse(input.IsValid());
+
+            WriteValidationError(input);
+
+        }
+
+        private void WriteValidationError(CustomerSaveInput input)
+        {
+            foreach (var error in input.ValidationResults)
+            {
+                Console.WriteLine($"{error.MemberNames.First()}: {error.ErrorMessage}");
+            }
+        }
+
+        private string RandomEmail()
+        {
+            return $"Email{DateTime.Now.Ticks}@any.where";
+        }
+
     }
 }

@@ -8,21 +8,30 @@ else
 {
     @if (Input is not null)
     {
-        <GSFormWrapper Title="Edit (Best) Customer">
+        <GSWrapper Title="Edit (Best) Customer">
             <BestCustomerSave Input="Input" OnSubmitClick="SaveAsync" OnCancelClick="() => Input = null" ErrorMessage="@SaveError"></BestCustomerSave>
-        </GSFormWrapper>
-        
+        </GSWrapper>
+
+        <br/>
+
+        <GSWrapper>
+            <small>
+                The best example is bound to models from the Best namespace.
+                It makes calls to an azure function that in turn executes against routines in the best schema
+                The best schema has parameter validaton, default values, display values, return values.
+                If you add/edit customers against "Best" you will see how robust SQL+ can make your code.
+            </small>
+        </GSWrapper>
     }
     else
     {
         @if(GridError is not null)
         {
-            <Dismissable Message="@GridError" OnCloseClick="() => GridError = null"/>
+            <Dismissable Message="@GridError" OnDismissClick="() => GridError = null"/>
         }
         else
         {
             <BestCustomerTable Customers="Customers" OnDeleteClick="DeleteAsync" OnEditClick="InitSave" OnAddClick="InitSave" CurrentPage="@CurrentPage" PageCount="@PageCount" OnPageClick="@GetCustomersAsync"></BestCustomerTable>
         }
-        
     }
 }

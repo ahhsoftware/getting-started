@@ -1,5 +1,7 @@
-﻿@inherits InputBase<string>
+﻿@inherits InputBase<string?>
+
 @using System.Linq.Expressions
+@using System.Diagnostics.CodeAnalysis
 
 <div class="form-group mb-3">
     @if (Label is not null)
@@ -34,7 +36,7 @@
     {
         validationErrorMessage = null;
 
-        if(string.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(value))
         {
             result = null;
         }
@@ -44,5 +46,6 @@
         }
 
         return true;
+
     }
 }

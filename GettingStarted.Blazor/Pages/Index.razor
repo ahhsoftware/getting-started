@@ -1,9 +1,38 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
-
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div class="w-75 mx-auto">
+    <h3 class="py-1">Welcome to the SQL+ Getting Started Walkthrough</h3>
+    <h4 class="py-1">Before you start</h4>
+    <p>
+        Make sure to follow the instructions in the "ReadMe.md" file in the root folder.
+    </p>
+    <p>
+        After completeing these steps all pages should function correctly.
+    </p>
+    <p>
+        * The Azure Functions must be running for this project to function correctly. *
+    </p>
+    <h4 class="py-1">
+        Exploring this project
+    </h4>
+    <p>
+        This application has three basic areas which map to the database schemas bad, better, and best.
+        <ol>
+            <li><b>Bad</b> - references the good "Bad" data services (bad schema routines) and while we did save time by generating usefull code, we have not utilized valuable features.</li>
+            <li><b>Better</b> - references the "Better" data services (better schema routines), where we improve our code through the use of semantic tags for validation.</li>
+            <li><b>Best</b> - references the "Best" data services (best schema routines) where we consolidate code and add return values to the mix to create easy to use, optimized services.</li>
+        </ol>
+    </p>
+    <h4 class="py-1">
+        Running and Testing
+    </h4>
+    <p class="py-1">
+        You can put break points on the "GetCustomersAsync" and "SaveAsync" methods in the code pages for the razor components.
+    </p>
+    <p class="py-1">
+        Try adding new customers with both valid and invalid data in each of the areas to see the behaviour of the various services.
+    </p>
+    <p>
+        Check out more at the <a href="https://www.sqlplus.net" target="_blank">SQL+ Website</a>
+    </p>
+</div>
