@@ -1,0 +1,57 @@
+﻿@inherits InputBase<byte?>
+
+@using System.Linq.Expressions
+@using System.Diagnostics.CodeAnalysis
+
+<div class="form-group mb-3">
+    @if (Label is not null)
+    {
+        <label>@Label</label>
+    }
+    <select class="form-control" @bind-value="@CurrentValue" @bind-value:event="onchange">
+        @if (@CurrentValue == null || @CurrentValue == 0)
+        {
+            <option selected="selected" value="">-- Select Type --</option>
+        }
+        @foreach (var kp in Options)
+        {
+            <option value="@kp.Key">@kp.Value</option>
+        }
+    </select>
+    @if (ValidationFor is not null)
+    {
+        <div class="form-control-validation">
+            <ValidationMessage For="@ValidationFor" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? Hint { get; set; }
+
+    [Parameter]
+    public Dictionary<byte,string>? Options { set; get; }
+
+    [Parameter, EditorRequired]
+    public Expression<Func<byte?>> ValidationFor { get; set; } = default!;
+
+    protected override bool TryParseValueFromString(string? value, out byte? result, out string? validationErrorMessage)
+    {
+        validationErrorMessage = null;
+
+        if (string.IsNullOrEmpty(value))
+        {
+            result = null;
+        }
+        else
+        {
+            result = byte.Parse(value);
+        }
+
+        return true;
+    }
+}

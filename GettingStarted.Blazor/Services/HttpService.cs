@@ -25,15 +25,15 @@ namespace GettingStarted.Blazor.Services
             return await Bad<T>(null);
         }
 
-        public async Task<HttpResult<T>> Better<T>(object? input = null)
+        public async Task<HttpResult<T>> Default<T>(object? input = null)
         {
             string serviceName = typeof(T).Name.Replace("Output", "");
-            return await (PostAsync<T>($"/api/v1/Better/{serviceName}", input));
+            return await (PostAsync<T>($"/api/v1/Default/{serviceName}", input));
         }
 
-        public async Task<HttpResult<T>> Better<T>()
+        public async Task<HttpResult<T>> Default<T>()
         {
-            return await Better<T>(null);
+            return await Default<T>(null);
         }
 
         public async Task<HttpResult<T>> Best<T>(object? input = null)

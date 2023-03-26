@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "058c7f12-d932-43de-b305-be0eaf617c25",
+		"name": "Default",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20133121"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PageSize\": 10,\r\n    \"PageNumber\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Default/Customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Default",
+						"Customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerById",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerId\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Default/CustomerById",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Default",
+						"CustomerById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerDelete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerId\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Default/CustomerDelete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Default",
+						"CustomerDelete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerSave",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"CustomerTypeId\" : 2,\r\n    \"FirstName\": \"Alan\",\r\n    \"LastName\": \"Hyneman\",\r\n    \"Email\": \"ss@.snet\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7293/api/v1/Default/CustomerSave",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7293",
+					"path": [
+						"api",
+						"v1",
+						"Default",
+						"CustomerSave"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

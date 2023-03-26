@@ -59,37 +59,20 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
-    <Folder Include="better\" />
-    <Folder Include="better\Stored Procedures\" />
-    <Folder Include="best\" />
-    <Folder Include="best\Stored Procedures\" />
-    <Folder Include="admin\" />
-    <Folder Include="admin\Stored Procedures\" />
-    <Folder Include="Security\" />
     <Folder Include="dbo\Functions\" />
-    <Folder Include="bad\" />
-    <Folder Include="bad\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Customer.sql" />
-    <Build Include="dbo\Stored Procedures\BasicCRUDProcedures.sql" />
-    <Build Include="better\Stored Procedures\Customers.sql" />
-    <Build Include="better\Stored Procedures\CustomerDelete.sql" />
-    <Build Include="better\Stored Procedures\CustomerById.sql" />
-    <Build Include="best\Stored Procedures\Customers.sql" />
-    <Build Include="best\Stored Procedures\CustomerById.sql" />
-    <Build Include="best\Stored Procedures\CustomerSave.sql" />
-    <Build Include="best\Stored Procedures\CustomerDelete.sql" />
-    <Build Include="admin\Stored Procedures\GenerateCustomers.sql" />
-    <Build Include="Security\better.sql" />
-    <Build Include="Security\best.sql" />
-    <Build Include="Security\admin.sql" />
     <Build Include="dbo\Functions\GetFilterCriteria.sql" />
-    <Build Include="better\Stored Procedures\CustomerSave.sql" />
-    <Build Include="bad\Stored Procedures\CustomerDelete.sql" />
-    <Build Include="bad\Stored Procedures\CustomerById.sql" />
-    <Build Include="bad\Stored Procedures\Customers.sql" />
-    <Build Include="bad\Stored Procedures\CustomerSave.sql" />
-    <Build Include="Security\bad.sql" />
+    <Build Include="dbo\User Defined Types\FilterCriteria.sql" />
+    <Build Include="dbo\Tables\CustomerType.sql" />
+    <Build Include="dbo\Stored Procedures\CustomerSave.sql" />
+    <Build Include="dbo\Stored Procedures\Customers.sql" />
+    <Build Include="dbo\Stored Procedures\CustomerDelete.sql" />
+    <Build Include="dbo\Stored Procedures\CustomerById.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment1.sql" />
   </ItemGroup>
 </Project>
