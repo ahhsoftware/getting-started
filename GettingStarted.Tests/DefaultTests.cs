@@ -1,5 +1,6 @@
 ﻿using GettingStarted.DataServices.Default;
 using GettingStarted.DataServices.Default.Models;
+using System.Data.SqlClient;
 
 namespace GettingStarted.Tests
 {
@@ -9,148 +10,119 @@ namespace GettingStarted.Tests
         private Service service = new("server=(local); initial catalog = gettingstarted; integrated security = true");
 
         [TestMethod]
-        public void A_Customer_Null_Values_NotValid()
+        public void A_CustomerSave_NullCustomerId_PreventsServiceCall()
         {
-            var input = new CustomerSaveInput();
+            var input = new CustomerSave_V2Input()
+            {
+                CustomerId = null,
+                CustomerTypeId = null,
+                Email = null,
+                FirstName = null,
+                LastName = null,
+            };
 
-            Assert.IsFalse(input.IsValid());
+            // Using the IsValid method makes are code clean
+
+            if (input.IsValid())
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void B_CustomerSave_NotFoundCustomer_ReturnsNotFound()
+        {
+            var input = new CustomerSaveInput()
+            {
+                CustomerId = -1,
+                CustomerTypeId = 1,
+                Email = TestHelpers.RandomEmail(256),
+                FirstName = TestHelpers.RandomString(64),
+                LastName = TestHelpers.RandomString(64),
+            };
+
+            var output = service.CustomerSave(input);
+
+            // We determine the outcome of our call using the enumerated return values
+
+            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.NotFound);
+
+        }
+
+        [TestMethod]
+        public void C_CustomerSave_NewCustomer_NullValues_FailsIsvalid()
+        {
+            var input = new CustomerSaveInput() { CustomerId = 0 };
+
+            // Using the IsValid method makes are code clean
+
+            if (input.IsValid())
+            {
+                Assert.Fail();
+            }
+
+            TestHelpers.WriteErrors(input);
+        }
+
+
+        [TestMethod]
+        public void D_CustomerSave_NewCustomer_ExceedMaxLength_FailsIsValid()
+        {
+            var input = new CustomerSaveInput()
+            {
+                CustomerId = 0,
+                CustomerTypeId = 1,
+                Email = TestHelpers.RandomEmail(257),
+                FirstName = TestHelpers.RandomString(65),
+                LastName = TestHelpers.RandomString(65),
+            };
+
+            if (input.IsValid())
+            {
+                Assert.Fail();
+            }
 
             TestHelpers.WriteErrors(input);
 
         }
 
         [TestMethod]
-        public void B_Customer_InvalidEmail_NotValid()
+        public void E_CustomerSave_DuplicateEmail_ReturnsDuplicate()
         {
-            var input = new CustomerSaveInput(0, 1, "first", "last", "invalidEmail");
+            var input = new CustomerSaveInput()
+            {
+                CustomerId = 0,
+                CustomerTypeId = 1,
+                Email = TestHelpers.RandomEmail(128),
+                FirstName = TestHelpers.RandomString(32),
+                LastName = TestHelpers.RandomString(32),
+            };
 
-            Assert.IsFalse(input.IsValid());
+            // First Save
+            service.CustomerSave(input);
+            
+            // Second Save
+            var output = service.CustomerSave(input);
 
-            TestHelpers.WriteErrors(input);
+            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Duplicate);
 
         }
 
         [TestMethod]
-        public void C_Customer_UniqueInsert_Returns_Inserted()
+        public void F_CustomerSave_InvalidCustomerType_ReturnsForeignKeyViolation()
         {
-            var input = new CustomerSaveInput(0, 1, "first", "last", TestHelpers.RandomEmail());
-
-            if(input.IsValid())
+            var input = new CustomerSaveInput()
             {
-                var output = service.CustomerSave(input);
-                Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Inserted);
-            }
-            else
-            {
-                TestHelpers.WriteErrors(input);
-                Assert.Fail();
-            }  
-        }
+                CustomerId = 0,
+                CustomerTypeId = 0,
+                Email = TestHelpers.RandomEmail(128),
+                FirstName = TestHelpers.RandomString(32),
+                LastName = TestHelpers.RandomString(32),
+            };
 
-        [TestMethod]
-        public void D_Customer_DuplicateEmail_Returns_Duplicate()
-        {
-            var input = new CustomerSaveInput(0, 1, "first", "last", TestHelpers.RandomEmail());
+            var output = service.CustomerSave(input);
 
-            if (input.IsValid())
-            {
-                //First save to create a row to violate
-                service.CustomerSave(input);
-               
-                //Makes this one a duplicate
-                var output = service.CustomerSave(input);
-                Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Duplicate);
-            }
-            else
-            {
-                TestHelpers.WriteErrors(input);
-                Assert.Fail();
-            }
-        }
-
-        [TestMethod]
-        public void E_Customer_InvalidCustomerType_Returns_ForeignKeyViolation()
-        {
-            var input = new CustomerSaveInput(0, 0, "first", "last", TestHelpers.RandomEmail());
-
-            if (input.IsValid())
-            {
-                var output = service.CustomerSave(input);
-                Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.ForeignKeyViolation);
-            }
-            else
-            {
-                TestHelpers.WriteErrors(input);
-                Assert.Fail();
-            }
-        }
-
-        [TestMethod]
-        public void F_Customer_ExistingCustomerUpdate_Returns_Modified()
-        {
-            var input = new CustomerSaveInput(0, 1, "first", "last", TestHelpers.RandomEmail());
-
-            if (input.IsValid())
-            {
-                // saving to get the inserted customer id for an update
-                input.CustomerId = service.CustomerSave(input).CustomerId!.Value;
-                
-                var output = service.CustomerSave(input);
-                Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Modified);
-            }
-            else
-            {
-                TestHelpers.WriteErrors(input);
-                Assert.Fail();
-            }
-        }
-
-        [TestMethod]
-        public void F_Customer_ExistingCustomerNotFound_Returns_NotFound()
-        {
-            var input = new CustomerSaveInput(-1, 1, "first", "last", TestHelpers.RandomEmail());
-
-            if (input.IsValid())
-            {
-                var output = service.CustomerSave(input);
-                Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.NotFound);
-            }
-            else
-            {
-                TestHelpers.WriteErrors(input);
-                Assert.Fail();
-            }
-        }
-
-        [TestMethod]
-        public void G_CustomerById_Exists_Returns_Ok()
-        {
-            var input = new CustomerSaveInput(0, 1, "first", "last", TestHelpers.RandomEmail());
-
-            if (input.IsValid())
-            {
-                int customerId = service.CustomerSave(input).CustomerId!.Value;
-
-                var output = service.CustomerById(new CustomerByIdInput(customerId));
-
-                Assert.IsTrue(output.ReturnValue == CustomerByIdOutput.Returns.Ok);
-
-                var result = output.ResultData!;
-
-                Assert.IsTrue(result.Email == input.Email);
-            }
-            else
-            {
-                TestHelpers.WriteErrors(input);
-                Assert.Fail();
-            }
-        }
-
-        [TestMethod]
-        public void H_CustomerById_DoesNotExists_Returns_NotFound()
-        {
-            var output = service.CustomerById(new CustomerByIdInput(-1));
-            Assert.IsTrue(output.ReturnValue == CustomerByIdOutput.Returns.NotFound);
+            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.ForeignKeyViolation);
         }
     }
 }

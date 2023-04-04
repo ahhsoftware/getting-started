@@ -41,6 +41,12 @@ namespace GettingStarted.Functions
                 if (parameters.Length != 0)
                 {
                     string json = await req.ReadAsStringAsync();
+                    
+                    if(string.IsNullOrEmpty(json))
+                    {
+                        return new BadRequestObjectResult("No JSON received for service input");
+                    }
+
                     return Execute(method, serviceName, json, log);
                 }
 
@@ -59,11 +65,6 @@ namespace GettingStarted.Functions
 
         private static IActionResult Execute(MethodInfo method, string serviceName, string json, ILogger log)
         {
-            if (string.IsNullOrEmpty(json))
-            {
-                return new BadRequestObjectResult("No json received for service input");
-            }
-
             Type inputType = Type.GetType($"{SERVICE_NAMESPACE}.Models.{serviceName}Input, {SERVICE_PROJECT}")!;
             if(inputType is null)
             {

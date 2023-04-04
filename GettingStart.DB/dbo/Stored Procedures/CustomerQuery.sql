@@ -1,9 +1,9 @@
 ﻿--+SqlPlusRoutine
 	--&SelectType=MultiRow
     --&Author=alan@sqlplus.net
-    --&Comment=Gets all customers, parameter validation, default values, return values.
+    --&Comment=Gets all customers.
 --+SqlPlusRoutine
-CREATE PROCEDURE [dbo].[Customers]
+CREATE PROCEDURE [dbo].[CustomerQuery]
 (
 	--+Required
 	--+Range=10,50

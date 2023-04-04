@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "058c7f12-d932-43de-b305-be0eaf617c25",
-		"name": "Default",
+		"name": "Customers",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20133121"
 	},
@@ -21,7 +21,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7293/api/v1/Default/Customers",
+					"raw": "http://localhost:7293/api/v1/Default/CustomerQuery",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -31,20 +31,20 @@
 						"api",
 						"v1",
 						"Default",
-						"Customers"
+						"CustomerQuery"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "CustomerById",
+			"name": "CustomerSelect",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"customerId\": 3\r\n}",
+					"raw": "{\r\n    \"customerId\": 4\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,7 +52,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:7293/api/v1/Default/CustomerById",
+					"raw": "http://localhost:7293/api/v1/Default/CustomerSelect",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -62,7 +62,7 @@
 						"api",
 						"v1",
 						"Default",
-						"CustomerById"
+						"CustomerSelect"
 					]
 				}
 			},
@@ -106,7 +106,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"CustomerTypeId\" : 2,\r\n    \"FirstName\": \"Alan\",\r\n    \"LastName\": \"Hyneman\",\r\n    \"Email\": \"ss@.snet\"\r\n}",
+					"raw": "{\r\n    \"CustomerTypeId\" : 2,\r\n    \"FirstName\": \"Alan\",\r\n    \"LastName\": \"Hyneman\",\r\n    \"Email\": \"ss@.snetss\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -1,7 +1,7 @@
 ﻿--+SqlPlusRoutine
 	--&SelectType=NonQuery
 	--&Author=alan@sqlplus.net
-    --&Comment=Inserts or updates the customer based on the value of the customer id. Includes parameter validation, default values, return values, duplicate index handling, foreign key handling.
+    --&Comment=Inserts or updates the customer based on the value of the customer id.
 --+SqlPlusRoutine
 CREATE PROCEDURE [dbo].[CustomerSave]
 (
@@ -31,7 +31,7 @@ CREATE PROCEDURE [dbo].[CustomerSave]
 	--+MaxLength=256
 	--+Required
 	--+Email
-	--+Comment=Customers email address
+	--+Comment=Customers primary email address
     @Email varchar(256)
 )
 AS

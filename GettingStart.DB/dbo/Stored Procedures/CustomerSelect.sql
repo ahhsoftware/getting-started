@@ -1,9 +1,9 @@
 ﻿--+SqlPlusRoutine
 	--&SelectType=SingleRow
     --&Author=alan@sqlplus.net
-    --&Comment=Selects customer for the given CustomerId, parameter validation, return values.
+    --&Comment=Selects customer for the given CustomerId.
 --+SqlPlusRoutine
-CREATE PROCEDURE [dbo].[CustomerById]
+CREATE PROCEDURE [dbo].[CustomerSelect]
 (
 	--+Required
 	@CustomerId int

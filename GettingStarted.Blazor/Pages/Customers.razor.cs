@@ -13,7 +13,7 @@ namespace GettingStarted.Blazor.Pages
 
         private CustomerSaveInput? Input = null;
 
-        private List<CustomersResult>? CustomersResult;
+        private List<CustomerQueryResult>? CustomersResult;
 
         private bool Loading = false;
 
@@ -38,7 +38,7 @@ namespace GettingStarted.Blazor.Pages
         {
             GridError = null;
 
-            var httpOutput = await new HttpService().Default<CustomersOutput>(new CustomersInput(10, page));
+            var httpOutput = await new HttpService().Default<CustomerQueryOutput>(new CustomerQueryInput(10, page));
 
             if (httpOutput.IsSuccess)
             {
@@ -52,7 +52,7 @@ namespace GettingStarted.Blazor.Pages
                 }
                 else
                 {
-                    CustomersResult = new List<CustomersResult>();
+                    CustomersResult = new List<CustomerQueryResult>();
                     PageCount = 1;
                     CurrentPage = 1;
                 }
@@ -150,7 +150,7 @@ namespace GettingStarted.Blazor.Pages
             }
         }
 
-        private CustomerSaveInput Map(CustomersResult source)
+        private CustomerSaveInput Map(CustomerQueryResult source)
         {
             return new CustomerSaveInput(source.CustomerId, source.CustomerTypeId, source.LastName, source.FirstName, source.Email);
         }
@@ -165,7 +165,7 @@ namespace GettingStarted.Blazor.Pages
         }
         private void InsertCustomerFromInput(int customerId)
         {
-            CustomersResult!.Add(new CustomersResult(customerId, Input!.CustomerTypeId!.Value, Input!.FirstName!, Input!.LastName!, Input!.Email!));
+            CustomersResult!.Add(new CustomerQueryResult(customerId, Input!.CustomerTypeId!.Value, Input!.FirstName!, Input!.LastName!, Input!.Email!));
         }
     }
 }

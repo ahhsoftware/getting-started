@@ -1,8 +1,8 @@
 ﻿DECLARE @CustomerTypeValues As TABLE 
 (
 	[CustomerTypeId] TINYINT, 
-	[Name] NVARCHAR(64), 
-	[Description] NVARCHAR(64)
+	[Name] VARCHAR(32), 
+	[Description] VARCHAR(256)
 )
 
 INSERT INTO @CustomerTypeValues
@@ -30,4 +30,4 @@ WHEN MATCHED THEN
 		t.[Name] = s.[Name],
 		t.[Description] = s.[Description];
 
-SELECT * FROM [dbo].[CustomerType]
+--SELECT * FROM [dbo].[CustomerType]

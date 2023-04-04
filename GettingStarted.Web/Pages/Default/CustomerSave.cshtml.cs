@@ -26,9 +26,9 @@ namespace GettingStarted.Web.Pages.Default
             {
                 try
                 {
-                    var output = dataService.CustomerById(new(customerId));
+                    var output = dataService.CustomerSelect(new(customerId));
                     
-                    if (output.ReturnValue == CustomerByIdOutput.Returns.NotFound)
+                    if (output.ReturnValue == CustomerSelectOutput.Returns.NotFound)
                     {
                         ErrorMessage = "The customer no longer exists. It more than like was deleted by another administrator.";
                     }
@@ -78,7 +78,7 @@ namespace GettingStarted.Web.Pages.Default
             return Page();
         }
 
-        private CustomerSaveInput MapFromResult(CustomerByIdResult result)
+        private CustomerSaveInput MapFromResult(CustomerSelectResult result)
         {
             return new CustomerSaveInput(result.CustomerId, result.CustomerTypeId, result.FirstName, result.LastName, result.Email);
         }

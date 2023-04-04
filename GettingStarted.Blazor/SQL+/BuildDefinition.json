@@ -1,0 +1,1 @@
+{"SQLClient":"System.Data.SqlClient","SQLExceptionNamespace":"System.Data","Template":"NET","DBRoutines":null,"DBSchemas":null,"QuerySchemas":null,"QueryRoutines":null,"EnumQueries":null,"StaticQueries":null,"BuildOptions":{"ImplementIChangeTracking":false,"ImplementIRevertibleChangeTracking":false,"ImplementINotifyPropertyChanged":false,"UseNullableReferenceTypes":false}}

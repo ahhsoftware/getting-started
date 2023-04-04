@@ -16,7 +16,7 @@ namespace GettingStarted.Web.Pages.Default
     {
 
         private readonly Service dataService;
-        public List<CustomersResult>? Customers { set; get; }
+        public List<CustomerQueryResult>? Customers { set; get; }
         public string? ErrorMessage { set; get; }
         public int? CustomerId { set; get; }
         public PagingModel? Pages { set; get; }
@@ -32,9 +32,9 @@ namespace GettingStarted.Web.Pages.Default
 
             try
             {
-                var output = dataService.Customers(new(10, pageNumber));
+                var output = dataService.CustomerQuery(new(10, pageNumber));
 
-                if (output.ReturnValue == CustomersOutput.Returns.Ok)
+                if (output.ReturnValue == CustomerQueryOutput.Returns.Ok)
                 {
                     Customers = output.ResultData;
                     Pages = GetPagingModel(pageNumber, output.PageCount!.Value);
