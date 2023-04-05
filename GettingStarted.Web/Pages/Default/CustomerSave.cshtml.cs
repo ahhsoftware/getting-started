@@ -62,7 +62,7 @@ namespace GettingStarted.Web.Pages.Default
                             ErrorMessage = "The email address provided is being used by another customer";
                             break;
                         default:
-                            ErrorMessage = "The customer no longer exists. It more than like was deleted by another administrator.";
+                            ErrorMessage = "The customer no longer exists. It more than likely was deleted by another administrator.";
                             break;
                     }
 

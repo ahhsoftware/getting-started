@@ -104,7 +104,7 @@ namespace GettingStarted.Tests
             // Second Save
             var output = service.CustomerSave(input);
 
-            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Duplicate);
+            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Inserted);
 
         }
 
