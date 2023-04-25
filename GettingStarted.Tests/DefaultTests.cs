@@ -1,5 +1,6 @@
 ﻿using GettingStarted.DataServices.Default;
 using GettingStarted.DataServices.Default.Models;
+using Newtonsoft.Json;
 using System.Data.SqlClient;
 
 namespace GettingStarted.Tests
@@ -104,7 +105,7 @@ namespace GettingStarted.Tests
             // Second Save
             var output = service.CustomerSave(input);
 
-            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Inserted);
+            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Duplicate);
 
         }
 
@@ -119,6 +120,8 @@ namespace GettingStarted.Tests
                 FirstName = TestHelpers.RandomString(32),
                 LastName = TestHelpers.RandomString(32),
             };
+
+
 
             var output = service.CustomerSave(input);
 
