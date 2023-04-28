@@ -1,8 +1,10 @@
 ﻿using GettingStarted.Blazor.Services;
 using GettingStarted.DataServices.Default.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace GettingStarted.Blazor.Pages
 {
@@ -16,16 +18,12 @@ namespace GettingStarted.Blazor.Pages
         private List<CustomerQueryResult>? CustomersResult;
 
         private bool Loading = false;
-
-        private string? SaveError = null;
-
-        private string? GridError = null;
+     
+        private string? ErrorMessage = null;
 
         public int CurrentPage = 1;
 
         public int PageCount = 1;
-
-        public Dictionary<byte, string> Options = GettingStarted.DataServices.Statics.StaticData.CustomerTypeList.ToDictionary(x => x.CustomerTypeId, x => x.Name);
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,7 +34,7 @@ namespace GettingStarted.Blazor.Pages
 
         private async Task GetCustomersAsync(int page)
         {
-            GridError = null;
+            ErrorMessage = null;
 
             var httpOutput = await new HttpService().Default<CustomerQueryOutput>(new CustomerQueryInput(10, page));
 
@@ -59,7 +57,7 @@ namespace GettingStarted.Blazor.Pages
             }
             else
             {
-                GridError = httpOutput.ErrorResult;
+                ErrorMessage = httpOutput.ErrorResult;
             }
         }
 
@@ -73,51 +71,28 @@ namespace GettingStarted.Blazor.Pages
             {
                 Input = Map(CustomersResult!.FirstOrDefault(c => c.CustomerId == customerId)!);
             }
-
-            SaveError = null;
         }
 
-        private async Task SaveAsync()
+        private void CustomerSaveSuccess(CustomerSaveOutput output)
         {
-            SaveError = null;
-
-            if (Input is not null)
+            switch (output.ReturnValue)
             {
-                var httpResult = await new HttpService().Default<CustomerSaveOutput>(Input);
-
-                if (httpResult.IsSuccess)
-                {
-                    if (httpResult.Data is not null)
-                    {
-                        var output = httpResult.Data;
-
-                        switch (output.ReturnValue)
-                        {
-                            case CustomerSaveOutput.Returns.Inserted:
-                                InsertCustomerFromInput(output.CustomerId!.Value);
-                                Input = null;
-                                break;
-                            case CustomerSaveOutput.Returns.Modified:
-                                UpdateExistingCustomerFromInput();
-                                Input = null;
-                                break;
-                            case CustomerSaveOutput.Returns.Duplicate:
-                                SaveError = "A customer with that email already exists";
-                                break;
-                            case CustomerSaveOutput.Returns.NotFound:
-                                SaveError = "This customer no longer exists. It may have been deleted by another user.";
-                                break;
-                            case CustomerSaveOutput.Returns.ForeignKeyViolation:
-                                SaveError = "The customer type selected is not available";
-                                break;
-                        }
-                    }
-                }
-                else
-                {
-                    SaveError = httpResult.ErrorResult;
-                }
+                case CustomerSaveOutput.Returns.Inserted:
+                    InsertCustomerFromInput(output.CustomerId!.Value);
+                    Input = null;
+                    break;
+                case CustomerSaveOutput.Returns.Modified:
+                    UpdateExistingCustomerFromInput();
+                    Input = null;
+                    break;
+                default:
+                    throw new Exception("Unexpected case returned from form");
             }
+        }
+
+        private void CustomerSaveCancel()
+        {
+            Input = null;
         }
 
         private async Task DeleteAsync(int customerId)

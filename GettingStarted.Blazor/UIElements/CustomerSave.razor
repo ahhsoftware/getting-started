@@ -1,48 +1,78 @@
-﻿@using GettingStarted.DataServices.Default.Models;
+﻿@using GettingStarted.Blazor.Services;
+@using GettingStarted.DataServices.Default.Models;
 
-<Dismissable Message=@ErrorMessage OnDismissClick="() => ErrorMessage = null" />
-<EditForm OnValidSubmit="()=>OnSubmitClick.InvokeAsync()" EditContext="_EditContext" >
+<Dismissable Message=@errorMessage OnDismissClick="() => errorMessage = null" />
+<EditForm OnValidSubmit="OnSubmit" EditContext="editContext">
     <DataAnnotationsValidator />
-    <GSHidden @bind-Value=Input!.CustomerId />
-    <GSSelect Label="Customer Type:" ValidationFor="() => Input.CustomerTypeId" @bind-Value=Input.CustomerTypeId Options="Options" />
-    <GSInputText Label="First Name:" ValidationFor="() => Input.FirstName" @bind-Value="Input.FirstName" />
-    <GSInputText Label="Last Name:" ValidationFor="() => Input.LastName" @bind-Value=Input.LastName />
-    <GSInputText Label="Email:" ValidationFor="() => Input.Email" @bind-Value=Input.Email Hint="We will never share your personal information." />
-    <GSSaveCancel OnCancelClick="() => OnCancelClick.InvokeAsync()" />
+    <GSHidden @bind-Value=input!.CustomerId />
+    <GSSelect Label="Customer Type:" ValidationFor="() => input.CustomerTypeId" @bind-Value=input.CustomerTypeId Options="options" />
+    <GSInputText Label="First Name:" ValidationFor="() => input.FirstName" @bind-Value="input.FirstName" />
+    <GSInputText Label="Last Name:" ValidationFor="() => input.LastName" @bind-Value=input.LastName />
+    <GSInputText Label="Email:" ValidationFor="() => input.Email" @bind-Value=input.Email Hint="We will never share your personal information." />
+    <GSSaveCancel OnCancelClick="OnCancel" />
 </EditForm>
 
 @code {
 
-    private CustomerSaveInput? _Input;
-    private EditContext? _EditContext;
+    private CustomerSaveInput? input;
+    private EditContext? editContext;
+    private string? errorMessage;
+    private Dictionary<byte, string>? options;
+
+    private async Task OnSubmit()
+    {
+        errorMessage = null;
+
+        var httpResult = await new HttpService().Default<CustomerSaveOutput>(Input);
+
+        if (httpResult.IsSuccess)
+        {
+            var output = httpResult.Data!;
+
+            switch (output.ReturnValue)
+            {
+                case CustomerSaveOutput.Returns.Inserted:
+                case CustomerSaveOutput.Returns.Modified:
+                    await OnSuccess.InvokeAsync(output);
+                    break;
+                case CustomerSaveOutput.Returns.Duplicate:
+                    errorMessage = "A customer with that email already exists";
+                    break;
+                case CustomerSaveOutput.Returns.NotFound:
+                    errorMessage = "This customer no longer exists. It may have been deleted by another user.";
+                    break;
+                case CustomerSaveOutput.Returns.ForeignKeyViolation:
+                    errorMessage = "The customer type selected is not available";
+                    break;
+            }
+        }
+        else
+        {
+            errorMessage = httpResult.ErrorResult;
+        }
+    }
 
     [Parameter]
     public CustomerSaveInput? Input
     {
         set
         {
-            _Input = value;
-            if (_Input is not null)
+            input = value;
+            if (input is not null)
             {
-                _EditContext = new EditContext(_Input);
+                editContext = new EditContext(input);
+                options = GettingStarted.DataServices.Statics.StaticData.CustomerTypeList.ToDictionary(x => x.CustomerTypeId, x => x.Name);
             }
         }
         get
         {
-            return _Input;
+            return input;
         }
     }
 
     [Parameter]
-    public EventCallback OnCancelClick { set; get; }
+    public EventCallback<CustomerSaveOutput> OnSuccess { set; get; }
 
     [Parameter]
-    public EventCallback OnSubmitClick { set; get; }
-
-    [Parameter]
-    public string? ErrorMessage { set; get; }
-
-    [Parameter]
-    public Dictionary<byte,string>? Options { set; get; }
-
+    public EventCallback OnCancel { set; get; }
 }

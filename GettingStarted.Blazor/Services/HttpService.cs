@@ -20,31 +20,10 @@ namespace GettingStarted.Blazor.Services
             return await (PostAsync<T>($"/api/v1/bad/{serviceName}", input));
         }
 
-        public async Task<HttpResult<T>> Bad<T>()
-        {
-            return await Bad<T>(null);
-        }
-
         public async Task<HttpResult<T>> Default<T>(object? input = null)
         {
             string serviceName = typeof(T).Name.Replace("Output", "");
             return await (PostAsync<T>($"/api/v1/Default/{serviceName}", input));
-        }
-
-        public async Task<HttpResult<T>> Default<T>()
-        {
-            return await Default<T>(null);
-        }
-
-        public async Task<HttpResult<T>> Best<T>(object? input = null)
-        {
-            string serviceName = typeof(T).Name.Replace("Output", "");
-            return await (PostAsync<T>($"/api/v1/Best/{serviceName}", input));
-        }
-
-        public async Task<HttpResult<T>> Best<T>()
-        {
-            return await Best<T>(null);
         }
 
         private async Task<HttpResult<T>> PostAsync<T>(string urlFragment, object? obj)
