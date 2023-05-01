@@ -69,6 +69,7 @@
     <Build Include="dbo\Stored Procedures\CustomerSave_V2.sql" />
     <Build Include="dbo\Stored Procedures\CustomerSave_V1.sql" />
     <Build Include="dbo\Stored Procedures\CustomerQuery.sql" />
+    <Build Include="dbo\Stored Procedures\CustomerInsert.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />

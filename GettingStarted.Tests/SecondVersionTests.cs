@@ -20,7 +20,6 @@ namespace GettingStarted.Tests
                 FirstName = null,
                 LastName = null,
             };
-
             try
             {
                 service.CustomerSave_V2(input);
