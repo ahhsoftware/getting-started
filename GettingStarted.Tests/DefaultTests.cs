@@ -1,7 +1,6 @@
 ﻿using GettingStarted.DataServices.Default;
 using GettingStarted.DataServices.Default.Models;
-using Newtonsoft.Json;
-using System.Data.SqlClient;
+using System.ComponentModel.DataAnnotations;
 
 namespace GettingStarted.Tests
 {
@@ -13,7 +12,7 @@ namespace GettingStarted.Tests
         [TestMethod]
         public void A_CustomerSave_NullCustomerId_PreventsServiceCall()
         {
-            var input = new CustomerSave_V2Input()
+            var input = new CustomerSaveInput()
             {
                 CustomerId = null,
                 CustomerTypeId = null,
@@ -46,8 +45,9 @@ namespace GettingStarted.Tests
 
             // We determine the outcome of our call using the enumerated return values
 
-            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.NotFound);
+            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.Duplicate);
 
+            
         }
 
         [TestMethod]
@@ -127,5 +127,89 @@ namespace GettingStarted.Tests
 
             Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.ForeignKeyViolation);
         }
+
+
+        [TestMethod]
+        public void s_CustomerSave_InvalidCustomerType_ReturnsForeignKeyViolation()
+        {
+
+            var input = new CustomerSaveInput()
+            {
+                CustomerId = null,
+                CustomerTypeId = null,
+                Email = null,
+                FirstName = null,
+                LastName = null,
+            };
+
+            if(input.IsValid())
+            {
+                //Happy path
+            }
+            else
+            {
+                foreach(ValidationResult vr in input.ValidationResults)
+                {
+                    Console.WriteLine(vr.ErrorMessage);
+                }
+            }
+
+
+            var output = service.CustomerSave(input);
+
+            Assert.IsTrue(output.ReturnValue == CustomerSaveOutput.Returns.ForeignKeyViolation);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

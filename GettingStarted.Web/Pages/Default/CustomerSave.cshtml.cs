@@ -20,14 +20,14 @@ namespace GettingStarted.Web.Pages.Default
         {
             if (customerId == 0)
             {
-                Input = new CustomerSaveInput();
+                Input = new CustomerSaveInput(0, null, null, null, null);
             }
             else
             {
                 try
                 {
                     var output = dataService.CustomerSelect(new(customerId));
-                    
+
                     if (output.ReturnValue == CustomerSelectOutput.Returns.NotFound)
                     {
                         ErrorMessage = "The customer no longer exists. It more than like was deleted by another administrator.";
@@ -94,6 +94,5 @@ namespace GettingStarted.Web.Pages.Default
 
             return result;
         }
-
     }
 }

@@ -13,6 +13,7 @@ namespace FirstService.dbo.Models
     #region usings
 
     using SqlPlusBase;
+    using System.ComponentModel.DataAnnotations;
 
     #endregion usings
 
@@ -61,6 +62,7 @@ namespace FirstService.dbo.Models
         /// <summary>
         /// Maps to parameter @FirstName.
         /// </summary>
+        [Display(Name = "First Name", Description = "This is the description")]
         public string FirstName
         {
             get => _FirstName;
